@@ -1,6 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { type Prisma, PrismaClient } from "@prisma/client";
 
-import { env } from "@/env";
+import { env } from "@/configs/env";
+
+export type DBClient = PrismaClient | Prisma.TransactionClient;
 
 const createPrismaClient = () =>
   new PrismaClient({

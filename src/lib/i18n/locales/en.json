@@ -1,0 +1,120 @@
+{
+  "languages": {
+    "en": "english",
+    "id": "indonesian",
+    "kr": "korean",
+    "jp": "japanese"
+  },
+  "date": {
+    "months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+    "shortMonths": {
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "May",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Aug",
+      "9": "Sep",
+      "10": "Oct",
+      "11": "Nov",
+      "12": "Dec"
+    },
+    "days": {
+      "1": "Sunday",
+      "2": "Monday",
+      "3": "Tuesday",
+      "4": "Wednesday",
+      "5": "Thursday",
+      "6": "Friday",
+      "7": "Saturday"
+    },
+    "relativeTime": {
+      "justNow": "Just now",
+      "minuteAgo": "{{count}} minute ago",
+      "minuteAgo_plural": "{{count}} minutes ago",
+      "hourAgo": "{{count}} hour ago",
+      "hourAgo_plural": "{{count}} hours ago",
+      "dayAgo": "{{count}} day ago",
+      "dayAgo_plural": "{{count}} days ago",
+      "weekAgo": "{{count}} week ago",
+      "weekAgo_plural": "{{count}} weeks ago",
+      "monthAgo": "{{count}} month ago",
+      "monthAgo_plural": "{{count}} months ago",
+      "yearAgo": "{{count}} year ago",
+      "yearAgo_plural": "{{count}} years ago"
+    }
+  },
+  "time": {
+    "period": {
+      "am": "AM",
+      "pm": "PM"
+    },
+    "periodOfDay": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "night": "Night"
+    },
+    "duration": {
+      "justNow": "Just now",
+      "second": "{{count}} second",
+      "second_plural": "{{count}} seconds",
+      "minute": "{{count}} minute",
+      "minute_plural": "{{count}} minutes",
+      "hour": "{{count}} hour",
+      "hour_plural": "{{count}} hours",
+      "day": "{{count}} day",
+      "day_plural": "{{count}} days"
+    }
+  },
+  "currency": {},
+  "models": {
+    "product": {
+      "title": "product",
+      "fields": {
+        "name": "name"
+      }
+    }
+  },
+  "schemas": {
+    "validation": {
+      "required": "{{field}} is required",
+      "invalid": "{{field}} is invalid",
+      "tooShort": "{{field}} must be at least {{min}} characters",
+      "tooLong": "{{field}} must be at most {{max}} characters"
+    }
+  },
+  "tables": {},
+  "pages": {},
+  "components": {},
+  "hello": "Hello World",
+  "greeting": {
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome back, {{name}}",
+    "guest": "Hello Guest"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again"
+  },
+  "home": {
+    "title": "Hello {{highlight}} App",
+    "highlight": "World"
+  }
+}

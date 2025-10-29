@@ -1,5 +1,13 @@
 import { postRouter } from "@/server/api/routers/post";
-import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
+import {
+  createCallerFactory,
+  createTRPCContext,
+  createTRPCRouter,
+} from "@/server/api/trpc";
+import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
+import type { GetServerSidePropsContext } from "next";
+import { authRouter } from "./routers/auth";
+import { settingsRouter } from "./routers/settings";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +16,8 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
+  auth: authRouter,
+  settings: settingsRouter,
 });
 
 // export type definition of API
@@ -21,3 +31,10 @@ export type AppRouter = typeof appRouter;
  *       ^? Post[]
  */
 export const createCaller = createCallerFactory(appRouter);
+
+export const createSSRCaller = async (
+  context: CreateNextContextOptions | GetServerSidePropsContext,
+) => {
+  const ctx = await createTRPCContext(context);
+  return appRouter.createCaller(ctx);
+};

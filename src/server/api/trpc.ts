@@ -6,12 +6,17 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
+import serverI18n from "@/lib/i18n/server";
+import { createSSRClient } from "@/lib/supabase/server";
 import { db } from "@/server/db";
+import type { User } from "@supabase/supabase-js";
+import type { TFunction } from "i18next";
+import type { GetServerSidePropsContext } from "next";
 
 /**
  * 1. CONTEXT
@@ -21,7 +26,15 @@ import { db } from "@/server/db";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-type CreateContextOptions = Record<string, never>;
+// type TranslatorFunction = (
+//   key: string,
+//   options?: Record<string, unknown>,
+// ) => string;
+
+type CreateContextOptions = {
+  user: User | null;
+  t: TFunction;
+};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -36,6 +49,8 @@ type CreateContextOptions = Record<string, never>;
 const createInnerTRPCContext = (_opts: CreateContextOptions) => {
   return {
     db,
+    user: _opts.user,
+    t: _opts.t,
   };
 };
 
@@ -45,8 +60,27 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+export const createTRPCContext = async (
+  _opts: CreateNextContextOptions | GetServerSidePropsContext,
+) => {
+  const supabaseServerClient = createSSRClient({
+    req: _opts.req,
+    res: _opts.res,
+  });
+
+  const { data } = await supabaseServerClient.auth.getUser();
+
+  const language =
+    _opts.req.headers["accept-language"]?.split(",")[0]?.split("-")[0] ??
+    _opts.req.cookies.i18next ??
+    "en";
+
+  await serverI18n.changeLanguage(language);
+
+  return createInnerTRPCContext({
+    user: data.user,
+    t: serverI18n.t,
+  });
 };
 
 /**
@@ -115,6 +149,19 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   return result;
 });
 
+const authMiddleware = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "User unauthorized" });
+  }
+
+  return await next({
+    ctx: {
+      ...ctx,
+      auth: ctx.user,
+    },
+  });
+});
+
 /**
  * Public (unauthenticated) procedure
  *
@@ -123,3 +170,15 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  * are logged in.
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
+
+/**
+ * Protected (authenticated) procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to logged in users, use this. It verifies
+ * the session is valid and guarantees `ctx.user` is not null.
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const protectedProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(authMiddleware);

@@ -1,13 +1,109 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+    schemas   = ["public"]
+}
+
+model TemplateModel {
+    id String @id @default(uuid()) @map("id") @db.VarChar(255)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("template_models")
+    @@schema("public")
+}
+
+enum LoginProvider {
+    EMAIL
+    GOOGLE
+
+    @@map("login_provider")
+    @@schema("public")
+}
+
+enum UserRole {
+    ADMIN
+    CASHIER
+    CUSTOMER
+
+    @@map("user_role")
+    @@schema("public")
+}
+
+model User {
+    id        String          @id @default(uuid()) @map("id") @db.VarChar(255)
+    name      String          @map("name") @db.Text
+    username  String          @unique @map("username") @db.Text
+    email     String          @unique @map("email") @db.Text
+    phone     String?         @unique @map("phone") @db.Text
+    avatar    String?         @map("avatar")
+    image     String?         @map("image")
+    providers LoginProvider[] @default([]) @map("providers")
+
+    settings Settings?
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@index([username])
+    @@index([name])
+    @@index([email])
+    @@map("users")
+    @@schema("public")
+}
+
+enum Theme {
+    LIGHT  @map("light")
+    DARK   @map("dark")
+    SYSTEM @map("system")
+
+    @@map("theme")
+    @@schema("public")
+}
+
+enum Language {
+    EN @map("en")
+    ID @map("id")
+    KR @map("kr")
+    JP @map("jp")
+
+    @@map("language")
+    @@schema("public")
+}
+
+enum Currency {
+    IDR @map("id-ID")
+    USD @map("en-US")
+    JPY @map("ja-JP")
+    KRW @map("ko-KR")
+
+    @@map("currency")
+    @@schema("public")
+}
+
+model Settings {
+    id       String   @id @default(uuid()) @map("id")
+    theme    Theme    @default(SYSTEM) @map("theme")
+    language Language @default(ID) @map("language")
+    currency Currency @default(IDR) @map("currency")
+
+    userId String @unique @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("settings")
+    @@schema("public")
 }
 
 model Post {
@@ -17,4 +113,5 @@ model Post {
     updatedAt DateTime @updatedAt
 
     @@index([name])
+    @@schema("public")
 }

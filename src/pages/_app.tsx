@@ -1,20 +1,23 @@
-import { type AppType } from "next/app";
-import { Geist } from "next/font/google";
-
 import { api } from "@/utils/api";
+
+import { type NextPage } from "next";
+import { type AppProps, type AppType } from "next/app";
+
+import { AppProvider } from "@/components/layouts";
 
 import "@/styles/globals.css";
 
-const geist = Geist({
-  subsets: ["latin"],
-});
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
 
-const MyApp: AppType = ({ Component, pageProps }) => {
-  return (
-    <div className={geist.className}>
-      <Component {...pageProps} />
-    </div>
-  );
+export type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout ?? ((page) => page);
+  return <AppProvider>{getLayout(<Component {...pageProps} />)}</AppProvider>;
 };
 
 export default api.withTRPC(MyApp);

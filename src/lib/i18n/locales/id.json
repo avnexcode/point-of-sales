@@ -1,0 +1,110 @@
+{
+  "languages": {
+    "en": "inggris",
+    "id": "indonesia",
+    "kr": "korea",
+    "jp": "jepang"
+  },
+  "date": {
+    "months": {
+      "1": "Januari",
+      "2": "Februari",
+      "3": "Maret",
+      "4": "April",
+      "5": "Mei",
+      "6": "Juni",
+      "7": "Juli",
+      "8": "Agustus",
+      "9": "September",
+      "10": "Oktober",
+      "11": "November",
+      "12": "Desember"
+    },
+    "shortMonths": {
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "Mei",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Agu",
+      "9": "Sep",
+      "10": "Okt",
+      "11": "Nov",
+      "12": "Des"
+    },
+    "days": {
+      "1": "Minggu",
+      "2": "Senin",
+      "3": "Selasa",
+      "4": "Rabu",
+      "5": "Kamis",
+      "6": "Jumat",
+      "7": "Sabtu"
+    },
+    "relativeTime": {
+      "justNow": "Baru saja",
+      "minuteAgo": "{{count}} menit yang lalu",
+      "hourAgo": "{{count}} jam yang lalu",
+      "dayAgo": "{{count}} hari yang lalu",
+      "weekAgo": "{{count}} minggu yang lalu",
+      "monthAgo": "{{count}} bulan yang lalu",
+      "yearAgo": "{{count}} tahun yang lalu"
+    }
+  },
+  "time": {
+    "period": {
+      "am": "AM",
+      "pm": "PM"
+    },
+    "periodOfDay": {
+      "morning": "Pagi",
+      "afternoon": "Siang",
+      "evening": "Sore",
+      "night": "Malam"
+    },
+    "duration": {
+      "justNow": "Baru saja",
+      "second": "{{count}} detik",
+      "minute": "{{count}} menit",
+      "hour": "{{count}} jam",
+      "day": "{{count}} hari"
+    }
+  },
+  "currency": {},
+  "models": {
+    "product": {
+      "title": "produk",
+      "fields": {
+        "name": "nama"
+      }
+    }
+  },
+  "schemas": {
+    "validation": {
+      "required": "{{field}} wajib diisi",
+      "invalid": "{{field}} tidak valid",
+      "tooShort": "{{field}} minimal {{min}} karakter",
+      "tooLong": "{{field}} maksimal {{max}} karakter"
+    }
+  },
+  "tables": {},
+  "pages": {},
+  "components": {},
+  "hello": "Halo Dunia",
+  "greeting": {
+    "welcome": "Selamat Datang",
+    "welcomeBack": "Selamat datang kembali, {{name}}",
+    "guest": "Halo Tamu"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba lagi"
+  },
+  "home": {
+    "title": "Halo {{highlight}} Aplikasi",
+    "highlight": "Dunia"
+  }
+}
