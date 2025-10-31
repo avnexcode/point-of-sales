@@ -1,6 +1,7 @@
 import { LanguageSwitcher, ThemeToggle } from "@/components/actions";
 import { PageContainer, SectionContainer } from "@/components/layouts";
 import { Heading } from "@/components/ui/heading";
+import { LogoutButton } from "@/features/auth/components";
 import { useAuth } from "@/hooks";
 import {
   capitalizeWords,
@@ -50,10 +51,16 @@ export const HomePage = () => {
 
   return (
     <PageContainer withFooter suppressHydrationWarning>
-      <SectionContainer padded>
+      <SectionContainer padded className="min-h-screen">
         <div className="flex items-center justify-center gap-x-5 p-5">
-          <Link href={"/login"}>Login</Link>
-          <Link href={"/register"}>Register</Link>
+          {isLogin ? (
+            <LogoutButton />
+          ) : (
+            <>
+              <Link href={"/login"}>Login</Link>
+              <Link href={"/register"}>Register</Link>
+            </>
+          )}
         </div>
         <div className="flex justify-center">
           <ThemeToggle />

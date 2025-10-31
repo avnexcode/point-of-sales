@@ -1,9 +1,12 @@
 import { PageContainer, SectionContainer } from "@/components/layouts";
+import { LoginForm } from "../forms";
 
 export const LoginPage = () => {
   return (
     <PageContainer title="Login">
-      <SectionContainer></SectionContainer>
+      <SectionContainer className="flex min-h-screen items-center justify-center">
+        <LoginForm />
+      </SectionContainer>
     </PageContainer>
   );
 };
