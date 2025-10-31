@@ -1,11 +1,12 @@
-import type { Settings, User } from "@prisma/client";
+import type { SettingsResponse } from "@/features/settings/types";
+import type { UserResponse } from "@/features/user/types";
 import { createContext } from "react";
 
 export type AuthContextProps = {
   isLogin: boolean;
   isLoading: boolean;
-  user?: User;
-  settings?: Settings;
+  user?: UserResponse;
+  settings?: SettingsResponse;
 };
 
 export const AuthContext = createContext<AuthContextProps | undefined>(

@@ -29,9 +29,8 @@ enum LoginProvider {
 }
 
 enum UserRole {
-    ADMIN
-    CASHIER
-    CUSTOMER
+    ADMIN   @map("admin")
+    CASHIER @map("cashier")
 
     @@map("user_role")
     @@schema("public")
@@ -45,6 +44,7 @@ model User {
     phone     String?         @unique @map("phone") @db.Text
     avatar    String?         @map("avatar")
     image     String?         @map("image")
+    role      UserRole        @default(ADMIN) @map("role")
     providers LoginProvider[] @default([]) @map("providers")
 
     settings Settings?
@@ -103,15 +103,5 @@ model Settings {
 
     @@index([id])
     @@map("settings")
-    @@schema("public")
-}
-
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
     @@schema("public")
 }

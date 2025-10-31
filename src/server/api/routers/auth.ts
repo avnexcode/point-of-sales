@@ -1,25 +1,50 @@
+import { AuthService } from "@/server/features/auth";
+import { UserService } from "@/server/features/user";
 import { errorFilter } from "@/server/filters";
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import type { User } from "@prisma/client";
+import type { UserResponse } from "@/server/models";
+import { loginRequest, registerRequest } from "@/server/validations";
+import z from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
-  getProfile: publicProcedure.query(async () => {
-    try {
-      const user: User = {
-        id: "8c73f5f2-8e6d-47a1-bd54-3af7e25cb8d9",
-        name: "Muhammad Fauzi Nur Aziz",
-        username: "axnvee",
-        email: "axnvee18@gmail.com",
-        phone: null,
-        avatar: null,
-        image: null,
-        providers: ["EMAIL"],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      return user;
-    } catch (error) {
-      return errorFilter(error);
-    }
-  }),
+  register: publicProcedure
+    .input(
+      z.object({
+        request: registerRequest,
+      }),
+    )
+    .mutation(async ({ ctx, input }): Promise<void> => {
+      const { db } = ctx;
+      const { request } = input;
+      try {
+        await db.$transaction(async (tx) => {
+          await AuthService.register(tx, request);
+        });
+      } catch (error) {
+        return errorFilter(error);
+      }
+    }),
+
+  login: publicProcedure
+    .input(z.object({ request: loginRequest }))
+    .mutation(async ({ ctx, input }): Promise<void> => {
+      const { db } = ctx;
+      const { request } = input;
+      try {
+      } catch (error) {
+        return errorFilter(error);
+      }
+    }),
+
+  getProfile: protectedProcedure.query(
+    async ({ ctx }): Promise<UserResponse> => {
+      const { db, auth } = ctx;
+      try {
+        const user = await UserService.getById(db, auth.id);
+        return user;
+      } catch (error) {
+        return errorFilter(error);
+      }
+    },
+  ),
 });

@@ -1,34 +1,40 @@
 import { useAuth } from "@/hooks";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import React, { useEffect, useMemo, useState } from "react";
+import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
+import React, { useEffect, useState } from "react";
+
+export const ThemeSync = () => {
+  const { isLogin, settings } = useAuth();
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    if (isLogin && settings?.theme) {
+      const theme = settings.theme.toLowerCase().trim();
+      setTheme(theme);
+    }
+  }, [isLogin, settings?.theme, setTheme]);
+
+  return null;
+};
 
 export const ThemeProvider = ({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) => {
-  const { isLogin, settings } = useAuth();
   const [mount, setMount] = useState<boolean>(false);
 
   useEffect(() => setMount(true), []);
-
-  const defaultTheme = useMemo(() => {
-    if (!mount || !isLogin || !settings?.theme) return "system";
-
-    const theme = settings.theme.toLowerCase().trim();
-
-    return theme;
-  }, [mount, isLogin, settings?.theme]);
 
   if (!mount) return <>{children}</>;
 
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme={defaultTheme}
+      defaultTheme={"system"}
       enableSystem
       disableTransitionOnChange
       {...props}
     >
+      <ThemeSync />
       {children}
     </NextThemesProvider>
   );

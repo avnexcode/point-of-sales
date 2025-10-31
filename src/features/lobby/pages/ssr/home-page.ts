@@ -1,5 +1,4 @@
 import { getSSRTranslator } from "@/lib/ssr-helpers";
-import { createSSRCaller } from "@/server/api/root";
 import type { GetServerSideProps } from "next";
 
 export const HomePageSSR: GetServerSideProps = async (context) => {
@@ -11,10 +10,7 @@ export const HomePageSSR: GetServerSideProps = async (context) => {
 
   console.log({ fromHomePage: t("home.title", { highlight: "World" }) });
 
-  const api = await createSSRCaller(context);
-  const products = await api.post.getProducts();
-
   return {
-    props: { sidebarDefaultOpen, products },
+    props: { sidebarDefaultOpen },
   };
 };

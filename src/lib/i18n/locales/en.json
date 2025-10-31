@@ -84,6 +84,32 @@
   },
   "currency": {},
   "models": {
+    "auth": {
+      "title": "auth",
+      "fields": {
+        "email": "email",
+        "password": "password",
+        "currentPassword": "current password",
+        "confirmPassword": "confirm password"
+      }
+    },
+    "user": {
+      "title": "user",
+      "fields": {
+        "name": "name",
+        "username": "username",
+        "email": "email",
+        "phone": "phone",
+        "avatar": "avatar",
+        "image": "image",
+        "providers": "providers",
+        "settings": "settings"
+      }
+    },
+    "settings": {
+      "title": "settings",
+      "fields": {}
+    },
     "product": {
       "title": "product",
       "fields": {
@@ -93,14 +119,231 @@
   },
   "schemas": {
     "validation": {
-      "required": "{{field}} is required",
-      "invalid": "{{field}} is invalid",
-      "tooShort": "{{field}} must be at least {{min}} characters",
-      "tooLong": "{{field}} must be at most {{max}} characters"
+      "common": {
+        "required": "{{field}} is required",
+        "invalid": "{{field}} is invalid",
+        "notAllowed": "{{field}} is not allowed",
+        "mustMatch": "{{field}} must match {{target}}",
+        "mustBeUnique": "{{field}} must be unique",
+        "notFound": "{{field}} not found"
+      },
+      "string": {
+        "min": "{{field}} must be at least {{min}} characters",
+        "max": "{{field}} must be at most {{max}} characters",
+        "length": "{{field}} must be exactly {{length}} characters",
+        "email": "please enter a valid email address",
+        "url": "{{field}} must be a valid URL",
+        "uuid": "{{field}} must be a valid UUID",
+        "regex": "{{field}} must contain at least one {{regex}}",
+        "includes": "{{field}} must include '{{substring}}'",
+        "startsWith": "{{field}} must start with '{{prefix}}'",
+        "endsWith": "{{field}} must end with '{{suffix}}'",
+        "datetime": "{{field}} must be a valid date and time",
+        "ip": "{{field}} must be a valid IP address"
+      },
+      "number": {
+        "min": "{{field}} must be greater than or equal to {{min}}",
+        "max": "{{field}} must be less than or equal to {{max}}",
+        "int": "{{field}} must be an integer",
+        "positive": "{{field}} must be a positive number",
+        "nonnegative": "{{field}} cannot be negative",
+        "negative": "{{field}} must be a negative number",
+        "multipleOf": "{{field}} must be a multiple of {{value}}",
+        "finite": "{{field}} must be a finite number"
+      },
+      "date": {
+        "min": "{{field}} must not be before {{min}}",
+        "max": "{{field}} must not be after {{max}}",
+        "invalid": "{{field}} must be a valid date"
+      },
+      "boolean": {
+        "true": "{{field}} must be true",
+        "false": "{{field}} must be false"
+      },
+      "array": {
+        "min": "{{field}} must contain at least {{min}} items",
+        "max": "{{field}} must contain at most {{max}} items",
+        "length": "{{field}} must contain exactly {{length}} items",
+        "nonempty": "{{field}} cannot be empty"
+      },
+      "object": {
+        "invalidType": "{{field}} must be an object",
+        "missingKey": "{{field}} is missing required key '{{key}}'",
+        "unknownKeys": "{{field}} contains unknown fields"
+      },
+      "file": {
+        "required": "{{field}} is required",
+        "maxSize": "{{field}} must not exceed {{maxSize}} MB",
+        "minSize": "{{field}} must be at least {{minSize}} MB",
+        "invalidType": "{{field}} must be of type {{allowedTypes}}"
+      },
+      "password": {
+        "confirmPassword": {
+          "required": "please confirm your password",
+          "doNotMatch": "passwords do not match"
+        }
+      }
+    }
+  },
+  "regex": {
+    "lowercase": "lowercase letter",
+    "uppercase": "uppercase letter",
+    "number": "number",
+    "specialCharacter": "special character (@$!%*?&)"
+  },
+  "pages": {
+    "auth": {
+      "register": {
+        "header": {
+          "title": "Register",
+          "description": "Create an account to get started."
+        },
+        "footer": {
+          "submitButton": "Register",
+          "submitButtonLoading": "Registering",
+          "caption": "Already have an account?",
+          "captionRedirect": "Sign in here!"
+        }
+      },
+      "login": {
+        "header": {
+          "title": "Login",
+          "description": "Welcome back! Please sign in to continue."
+        },
+        "footer": {
+          "submitButton": "Login",
+          "submitButtonLoading": "Loging in",
+          "caption": "Don't have an account?",
+          "captionRedirect": "Sign up here!"
+        }
+      }
+    }
+  },
+  "forms": {
+    "placeholders": {
+      "input": "Input {{field}} here"
+    }
+  },
+  "successes": {
+    "message": {
+      "register": "Registration successful. Please check your email to confirm your account",
+      "login": "You have logged in successfully"
+    }
+  },
+  "errors": {
+    "messages": {
+      "register": "Registration failed",
+      "login": "Login failed",
+      "email": {
+        "conflict": "This email address is already registered"
+      },
+      "trpc": {
+        "badRequest": "invalid request for {{field}}",
+        "parseError": "unable to parse request data for {{field}}",
+        "internalServerError": "an unexpected error occurred while processing {{field}}",
+        "notImplemented": "{{field}} feature is not implemented yet",
+        "badGateway": "received an invalid response while processing {{field}}",
+        "serviceUnavailable": "the service for {{field}} is currently unavailable",
+        "gatewayTimeout": "the request for {{field}} took too long to respond",
+        "unauthorized": "you are not authorized to access this {{field}}",
+        "paymentRequired": "payment is required to access this {{field}}",
+        "forbidden": "you do not have permission to perform this action on {{field}}",
+        "notFound": "{{field}} not found",
+        "methodNotSupported": "the requested method is not supported for {{field}}",
+        "timeout": "the request for {{field}} has timed out",
+        "conflict": "{{field}} already exists or is in conflict",
+        "preconditionFailed": "precondition for {{field}} has failed",
+        "payloadTooLarge": "the request payload for {{field}} is too large",
+        "unsupportedMediaType": "unsupported media type for {{field}}",
+        "unprocessableContent": "{{field}} cannot be processed due to invalid content",
+        "preconditionRequired": "a precondition header is required for {{field}}",
+        "tooManyRequests": "too many requests made for {{field}} — please try again later",
+        "clientClosedRequest": "the client closed the request before {{field}} could be processed"
+      },
+      "supabase": {
+        "auth": {
+          "anonymousProviderDisabled": "Anonymous sign-in is disabled",
+          "badCodeVerifier": "Invalid verification code",
+          "badJson": "Invalid JSON format received",
+          "badJwt": "Invalid or expired authentication token",
+          "badOauthCallback": "Invalid OAuth callback request",
+          "badOauthState": "Invalid OAuth state parameter",
+          "captchaFailed": "Captcha verification failed",
+          "conflict": "A conflict occurred while processing your request",
+          "emailAddressNotAuthorized": "This email address is not authorized",
+          "emailConflictIdentityNotDeletable": "This email identity cannot be deleted due to a conflict",
+          "emailExists": "This email address is already registered",
+          "emailNotConfirmed": "Your email address has not been confirmed",
+          "emailProviderDisabled": "Email provider is currently disabled",
+          "flowStateExpired": "Your session has expired. Please try again",
+          "flowStateNotFound": "Session state not found. Please restart the process",
+          "hookPayloadOverSizeLimit": "The request payload exceeds the allowed size",
+          "hookTimeout": "The server took too long to respond to the hook request",
+          "hookTimeoutAfterRetry": "The server timed out after multiple retry attempts",
+          "identityAlreadyExists": "This identity already exists",
+          "identityNotFound": "The specified identity could not be found",
+          "insufficientAal": "Additional authentication is required",
+          "inviteNotFound": "Invitation not found or expired",
+          "invalidCredentials": "Invalid email or password. Please try again",
+          "manualLinkingDisabled": "Manual account linking is disabled",
+          "mfaChallengeExpired": "The MFA challenge has expired",
+          "mfaFactorNameConflict": "An MFA factor with this name already exists",
+          "mfaFactorNotFound": "The specified MFA factor could not be found",
+          "mfaIpAddressMismatch": "IP address mismatch detected for MFA verification",
+          "mfaVerificationFailed": "MFA verification failed",
+          "mfaVerificationRejected": "MFA verification was rejected",
+          "mfaVerifiedFactorExists": "An MFA factor is already verified for this account",
+          "mfaTotpEnrollDisabled": "TOTP enrollment is disabled",
+          "mfaTotpVerifyDisabled": "TOTP verification is disabled",
+          "mfaPhoneEnrollDisabled": "Phone MFA enrollment is disabled",
+          "mfaPhoneVerifyDisabled": "Phone MFA verification is disabled",
+          "noAuthorization": "Authorization is required to access this resource",
+          "notAdmin": "You do not have admin privileges",
+          "oauthProviderNotSupported": "This OAuth provider is not supported",
+          "otpDisabled": "One-time password (OTP) is disabled",
+          "otpExpired": "The one-time password has expired",
+          "overEmailSendRateLimit": "Too many emails sent. Please wait before trying again",
+          "overRequestRateLimit": "Too many requests. Please slow down",
+          "overSmsSendRateLimit": "Too many SMS messages sent. Please wait before retrying",
+          "phoneExists": "This phone number is already registered",
+          "phoneNotConfirmed": "Your phone number has not been verified",
+          "phoneProviderDisabled": "Phone provider is currently disabled",
+          "providerDisabled": "This authentication provider is disabled",
+          "providerEmailNeedsVerification": "Email verification is required for this provider",
+          "reauthenticationNeeded": "Reauthentication is required to continue",
+          "reauthenticationNotValid": "Reauthentication failed. Please try again",
+          "requestTimeout": "The request took too long to complete",
+          "samePassword": "New password cannot be the same as the old password",
+          "samlAssertionNoEmail": "No email address was found in the SAML assertion",
+          "samlAssertionNoUserId": "No user ID was found in the SAML assertion",
+          "samlEntityIdMismatch": "SAML entity ID does not match the configured one",
+          "samlIdpAlreadyExists": "This SAML identity provider already exists",
+          "samlIdpNotFound": "SAML identity provider not found",
+          "samlMetadataFetchFailed": "Failed to fetch SAML metadata",
+          "samlProviderDisabled": "SAML provider is currently disabled",
+          "samlRelayStateExpired": "SAML relay state has expired",
+          "samlRelayStateNotFound": "SAML relay state not found",
+          "sessionNotFound": "User session not found",
+          "signupDisabled": "User registration is currently disabled",
+          "singleIdentityNotDeletable": "This is the only identity and cannot be deleted",
+          "smsSendFailed": "Failed to send SMS message",
+          "ssoDomainAlreadyExists": "This SSO domain is already configured",
+          "ssoProviderNotFound": "SSO provider not found",
+          "tooManyEnrolledMfaFactors": "Too many MFA factors are enrolled for this account",
+          "unexpectedAudience": "Unexpected audience in the authentication token",
+          "unexpectedFailure": "An unexpected server error occurred",
+          "userAlreadyExists": "A user with these credentials already exists",
+          "userBanned": "Your account has been banned",
+          "userNotFound": "User not found",
+          "userSsoManaged": "This account is managed by an external SSO provider",
+          "validationFailed": "Validation failed. Please check your input",
+          "weakPassword": "The provided password is too weak",
+          "default": "An unexpected error occurred. Please try again later"
+        }
+      }
     }
   },
   "tables": {},
-  "pages": {},
   "components": {},
   "hello": "Hello World",
   "greeting": {

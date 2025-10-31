@@ -1,9 +1,12 @@
 import { PageContainer, SectionContainer } from "@/components/layouts";
+import { RegisterForm } from "../forms";
 
 export const RegisterPage = () => {
   return (
     <PageContainer title="Register">
-      <SectionContainer></SectionContainer>
+      <SectionContainer className="flex min-h-screen items-center justify-center">
+        <RegisterForm />
+      </SectionContainer>
     </PageContainer>
   );
 };

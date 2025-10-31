@@ -74,6 +74,32 @@
   },
   "currency": {},
   "models": {
+    "auth": {
+      "title": "autentikasi",
+      "fields": {
+        "email": "email",
+        "password": "kata sandi",
+        "currentPassword": "kata sandi saat ini",
+        "confirmPassword": "konfirmasi kata sandi"
+      }
+    },
+    "user": {
+      "title": "pengguna",
+      "fields": {
+        "name": "nama",
+        "username": "nama pengguna",
+        "email": "email",
+        "phone": "nomor telepon",
+        "avatar": "avatar",
+        "image": "gambar",
+        "providers": "penyedia",
+        "settings": "pengaturan"
+      }
+    },
+    "settings": {
+      "title": "pengaturan",
+      "fields": {}
+    },
     "product": {
       "title": "produk",
       "fields": {
@@ -83,14 +109,231 @@
   },
   "schemas": {
     "validation": {
-      "required": "{{field}} wajib diisi",
-      "invalid": "{{field}} tidak valid",
-      "tooShort": "{{field}} minimal {{min}} karakter",
-      "tooLong": "{{field}} maksimal {{max}} karakter"
+      "common": {
+        "required": "{{field}} wajib diisi",
+        "invalid": "{{field}} tidak valid",
+        "notAllowed": "{{field}} tidak diizinkan",
+        "mustMatch": "{{field}} harus sama dengan {{target}}",
+        "mustBeUnique": "{{field}} harus unik",
+        "notFound": "{{field}} tidak ditemukan"
+      },
+      "string": {
+        "min": "{{field}} harus memiliki setidaknya {{min}} karakter",
+        "max": "{{field}} tidak boleh lebih dari {{max}} karakter",
+        "length": "{{field}} harus terdiri dari tepat {{length}} karakter",
+        "email": "silakan masukkan alamat email yang valid",
+        "url": "{{field}} harus berupa URL yang valid",
+        "uuid": "{{field}} harus berupa UUID yang valid",
+        "regex": "{{field}} harus mengandung setidaknya satu {{regex}}",
+        "includes": "{{field}} harus mengandung '{{substring}}'",
+        "startsWith": "{{field}} harus diawali dengan '{{prefix}}'",
+        "endsWith": "{{field}} harus diakhiri dengan '{{suffix}}'",
+        "datetime": "{{field}} harus berupa tanggal dan waktu yang valid",
+        "ip": "{{field}} harus berupa alamat IP yang valid"
+      },
+      "number": {
+        "min": "{{field}} harus lebih besar atau sama dengan {{min}}",
+        "max": "{{field}} harus lebih kecil atau sama dengan {{max}}",
+        "int": "{{field}} harus berupa bilangan bulat",
+        "positive": "{{field}} harus berupa angka positif",
+        "nonnegative": "{{field}} tidak boleh bernilai negatif",
+        "negative": "{{field}} harus berupa angka negatif",
+        "multipleOf": "{{field}} harus merupakan kelipatan dari {{value}}",
+        "finite": "{{field}} harus berupa angka yang terbatas"
+      },
+      "date": {
+        "min": "{{field}} tidak boleh sebelum {{min}}",
+        "max": "{{field}} tidak boleh setelah {{max}}",
+        "invalid": "{{field}} harus berupa tanggal yang valid"
+      },
+      "boolean": {
+        "true": "{{field}} harus bernilai benar (true)",
+        "false": "{{field}} harus bernilai salah (false)"
+      },
+      "array": {
+        "min": "{{field}} harus memiliki minimal {{min}} item",
+        "max": "{{field}} harus memiliki maksimal {{max}} item",
+        "length": "{{field}} harus memiliki tepat {{length}} item",
+        "nonempty": "{{field}} tidak boleh kosong"
+      },
+      "object": {
+        "invalidType": "{{field}} harus berupa objek",
+        "missingKey": "{{field}} tidak memiliki kunci '{{key}}' yang diperlukan",
+        "unknownKeys": "{{field}} mengandung kunci yang tidak dikenal"
+      },
+      "file": {
+        "required": "{{field}} wajib diunggah",
+        "maxSize": "Ukuran {{field}} tidak boleh melebihi {{maxSize}} MB",
+        "minSize": "Ukuran {{field}} minimal harus {{minSize}} MB",
+        "invalidType": "{{field}} harus berupa tipe berkas {{allowedTypes}}"
+      },
+      "password": {
+        "confirmPassword": {
+          "required": "silakan konfirmasi kata sandi Anda",
+          "doNotMatch": "kata sandi tidak cocok"
+        }
+      }
+    }
+  },
+  "regex": {
+    "lowercase": "huruf kecil",
+    "uppercase": "huruf besar",
+    "number": "angka",
+    "specialCharacter": "karakter spesial (@$!%*?&)"
+  },
+  "pages": {
+    "auth": {
+      "register": {
+        "header": {
+          "title": "Daftar",
+          "description": "Buat akun untuk memulai."
+        },
+        "footer": {
+          "submitButton": "Daftar",
+          "submitButtonLoading": "Mendaftar",
+          "caption": "Sudah punya akun?",
+          "captionRedirect": "Masuk di sini!"
+        }
+      },
+      "login": {
+        "header": {
+          "title": "Masuk",
+          "description": "Selamat datang kembali! Silakan masuk untuk melanjutkan."
+        },
+        "footer": {
+          "submitButton": "Masuk",
+          "submitButtonLoading": "Memproses",
+          "caption": "Belum punya akun?",
+          "captionRedirect": "Daftar di sini!"
+        }
+      }
+    }
+  },
+  "forms": {
+    "placeholders": {
+      "input": "Masukkan {{field}} di sini"
+    }
+  },
+  "successes": {
+    "message": {
+      "register": "Pendaftaran berhasil. Silakan periksa email Anda untuk mengonfirmasi akun Anda",
+      "login": "Anda berhasil masuk"
+    }
+  },
+  "errors": {
+    "messages": {
+      "register": "Pendaftaran gagal",
+      "login": "Gagal masuk",
+      "email": {
+        "conflict": "Alamat email ini sudah terdaftar"
+      },
+      "trpc": {
+        "badRequest": "permintaan tidak valid untuk {{field}}",
+        "parseError": "tidak dapat memproses data permintaan untuk {{field}}",
+        "internalServerError": "terjadi kesalahan tak terduga saat memproses {{field}}",
+        "notImplemented": "fitur {{field}} belum tersedia",
+        "badGateway": "menerima respons tidak valid saat memproses {{field}}",
+        "serviceUnavailable": "layanan untuk {{field}} sedang tidak tersedia",
+        "gatewayTimeout": "permintaan untuk {{field}} memerlukan waktu terlalu lama untuk merespons",
+        "unauthorized": "anda tidak memiliki izin untuk mengakses {{field}}",
+        "paymentRequired": "pembayaran diperlukan untuk mengakses {{field}}",
+        "forbidden": "anda tidak diizinkan untuk melakukan tindakan ini pada {{field}}",
+        "notFound": "{{field}} tidak ditemukan",
+        "methodNotSupported": "metode yang diminta tidak didukung untuk {{field}}",
+        "timeout": "permintaan untuk {{field}} telah melewati batas waktu",
+        "conflict": "{{field}} sudah ada atau terjadi konflik",
+        "preconditionFailed": "prasyarat untuk {{field}} gagal terpenuhi",
+        "payloadTooLarge": "ukuran data permintaan untuk {{field}} terlalu besar",
+        "unsupportedMediaType": "tipe media tidak didukung untuk {{field}}",
+        "unprocessableContent": "{{field}} tidak dapat diproses karena konten tidak valid",
+        "preconditionRequired": "header prasyarat diperlukan untuk {{field}}",
+        "tooManyRequests": "terlalu banyak permintaan untuk {{field}} — silakan coba lagi nanti",
+        "clientClosedRequest": "klien menutup permintaan sebelum {{field}} dapat diproses"
+      },
+      "supabase": {
+        "auth": {
+          "anonymousProviderDisabled": "Masuk anonim sedang dinonaktifkan",
+          "badCodeVerifier": "Kode verifikasi tidak valid",
+          "badJson": "Format JSON yang diterima tidak valid",
+          "badJwt": "Token autentikasi tidak valid atau sudah kedaluwarsa",
+          "badOauthCallback": "Permintaan callback OAuth tidak valid",
+          "badOauthState": "Parameter state OAuth tidak valid",
+          "captchaFailed": "Verifikasi captcha gagal",
+          "conflict": "Terjadi konflik saat memproses permintaan Anda",
+          "emailAddressNotAuthorized": "Alamat email ini tidak diizinkan",
+          "emailConflictIdentityNotDeletable": "Identitas email ini tidak dapat dihapus karena konflik",
+          "emailExists": "Alamat email ini sudah terdaftar",
+          "emailNotConfirmed": "Alamat email Anda belum dikonfirmasi",
+          "emailProviderDisabled": "Penyedia layanan email sedang dinonaktifkan",
+          "flowStateExpired": "Sesi Anda telah kedaluwarsa. Silakan coba lagi",
+          "flowStateNotFound": "Status sesi tidak ditemukan. Silakan mulai ulang proses",
+          "hookPayloadOverSizeLimit": "Ukuran payload permintaan melebihi batas yang diizinkan",
+          "hookTimeout": "Server memerlukan waktu terlalu lama untuk merespons permintaan",
+          "hookTimeoutAfterRetry": "Server kehabisan waktu setelah beberapa kali percobaan",
+          "identityAlreadyExists": "Identitas ini sudah ada",
+          "identityNotFound": "Identitas yang dimaksud tidak ditemukan",
+          "insufficientAal": "Diperlukan autentikasi tambahan",
+          "inviteNotFound": "Undangan tidak ditemukan atau sudah kedaluwarsa",
+          "invalidCredentials": "Email atau kata sandi tidak valid. Silakan coba lagi",
+          "manualLinkingDisabled": "Pengaitan akun manual sedang dinonaktifkan",
+          "mfaChallengeExpired": "Tantangan MFA telah kedaluwarsa",
+          "mfaFactorNameConflict": "Faktor MFA dengan nama ini sudah ada",
+          "mfaFactorNotFound": "Faktor MFA yang dimaksud tidak ditemukan",
+          "mfaIpAddressMismatch": "Terjadi ketidaksesuaian alamat IP saat verifikasi MFA",
+          "mfaVerificationFailed": "Verifikasi MFA gagal",
+          "mfaVerificationRejected": "Verifikasi MFA ditolak",
+          "mfaVerifiedFactorExists": "Faktor MFA sudah terverifikasi pada akun ini",
+          "mfaTotpEnrollDisabled": "Pendaftaran TOTP sedang dinonaktifkan",
+          "mfaTotpVerifyDisabled": "Verifikasi TOTP sedang dinonaktifkan",
+          "mfaPhoneEnrollDisabled": "Pendaftaran MFA melalui ponsel sedang dinonaktifkan",
+          "mfaPhoneVerifyDisabled": "Verifikasi MFA melalui ponsel sedang dinonaktifkan",
+          "noAuthorization": "Diperlukan otorisasi untuk mengakses sumber daya ini",
+          "notAdmin": "Anda tidak memiliki hak akses admin",
+          "oauthProviderNotSupported": "Penyedia OAuth ini tidak didukung",
+          "otpDisabled": "Kode OTP sedang dinonaktifkan",
+          "otpExpired": "Kode OTP telah kedaluwarsa",
+          "overEmailSendRateLimit": "Terlalu banyak email dikirim. Silakan tunggu sebelum mencoba lagi",
+          "overRequestRateLimit": "Terlalu banyak permintaan. Silakan coba lagi nanti",
+          "overSmsSendRateLimit": "Terlalu banyak SMS dikirim. Silakan tunggu sebelum mencoba lagi",
+          "phoneExists": "Nomor ponsel ini sudah terdaftar",
+          "phoneNotConfirmed": "Nomor ponsel Anda belum diverifikasi",
+          "phoneProviderDisabled": "Penyedia layanan ponsel sedang dinonaktifkan",
+          "providerDisabled": "Penyedia autentikasi ini sedang dinonaktifkan",
+          "providerEmailNeedsVerification": "Verifikasi email diperlukan untuk penyedia ini",
+          "reauthenticationNeeded": "Diperlukan autentikasi ulang untuk melanjutkan",
+          "reauthenticationNotValid": "Autentikasi ulang gagal. Silakan coba lagi",
+          "requestTimeout": "Permintaan memerlukan waktu terlalu lama untuk diselesaikan",
+          "samePassword": "Kata sandi baru tidak boleh sama dengan yang lama",
+          "samlAssertionNoEmail": "Alamat email tidak ditemukan dalam data SAML",
+          "samlAssertionNoUserId": "ID pengguna tidak ditemukan dalam data SAML",
+          "samlEntityIdMismatch": "Entity ID SAML tidak sesuai dengan konfigurasi",
+          "samlIdpAlreadyExists": "Penyedia identitas SAML ini sudah ada",
+          "samlIdpNotFound": "Penyedia identitas SAML tidak ditemukan",
+          "samlMetadataFetchFailed": "Gagal mengambil metadata SAML",
+          "samlProviderDisabled": "Penyedia SAML sedang dinonaktifkan",
+          "samlRelayStateExpired": "Status relay SAML telah kedaluwarsa",
+          "samlRelayStateNotFound": "Status relay SAML tidak ditemukan",
+          "sessionNotFound": "Sesi pengguna tidak ditemukan",
+          "signupDisabled": "Pendaftaran pengguna sedang dinonaktifkan",
+          "singleIdentityNotDeletable": "Identitas tunggal ini tidak dapat dihapus",
+          "smsSendFailed": "Gagal mengirim pesan SMS",
+          "ssoDomainAlreadyExists": "Domain SSO ini sudah dikonfigurasi",
+          "ssoProviderNotFound": "Penyedia SSO tidak ditemukan",
+          "tooManyEnrolledMfaFactors": "Terlalu banyak faktor MFA yang terdaftar pada akun ini",
+          "unexpectedAudience": "Audiens tidak sesuai dalam token autentikasi",
+          "unexpectedFailure": "Terjadi kesalahan tak terduga pada server",
+          "userAlreadyExists": "Pengguna dengan kredensial ini sudah ada",
+          "userBanned": "Akun Anda telah diblokir",
+          "userNotFound": "Pengguna tidak ditemukan",
+          "userSsoManaged": "Akun ini dikelola oleh penyedia SSO eksternal",
+          "validationFailed": "Validasi gagal. Silakan periksa kembali input Anda",
+          "weakPassword": "Kata sandi yang dimasukkan terlalu lemah",
+          "default": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti"
+        }
+      }
     }
   },
   "tables": {},
-  "pages": {},
   "components": {},
   "hello": "Halo Dunia",
   "greeting": {
@@ -99,7 +342,7 @@
     "guest": "Halo Tamu"
   },
   "common": {
-    "loading": "Memuat...",
+    "loading": "Memuat..",
     "error": "Terjadi kesalahan",
     "retry": "Coba lagi"
   },
