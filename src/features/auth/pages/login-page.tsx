@@ -1,4 +1,5 @@
 import { PageContainer, SectionContainer } from "@/components/layouts";
+import { AuthLayout } from "../components/layouts";
 import { LoginForm } from "../forms";
 
 export const LoginPage = () => {
@@ -12,5 +13,5 @@ export const LoginPage = () => {
 };
 
 LoginPage.getLayout = (page: React.ReactElement) => {
-  return <>{page}</>;
+  return <AuthLayout>{page}</AuthLayout>;
 };

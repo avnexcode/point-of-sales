@@ -4,9 +4,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import serverI18n from "../i18n/server";
 
 const PATHS = {
-  DEFAULT_REDIRECT: "/",
+  DEFAULT_REDIRECT: "/dashboard",
   AUTH_REDIRECT: "/login",
-  PUBLIC_ROUTES: ["/login", "/register"],
+  PUBLIC_ROUTES: ["/", "/login", "/register"],
 };
 
 export const updateSession = async (

@@ -7,6 +7,8 @@ export type AuthContextProps = {
   isLoading: boolean;
   user?: UserResponse;
   settings?: SettingsResponse;
+  startAuthCheck: () => void;
+  stopAuthCheck: () => void;
 };
 
 export const AuthContext = createContext<AuthContextProps | undefined>(

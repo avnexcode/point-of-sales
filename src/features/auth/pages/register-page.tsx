@@ -1,4 +1,5 @@
 import { PageContainer, SectionContainer } from "@/components/layouts";
+import { AuthLayout } from "../components/layouts";
 import { RegisterForm } from "../forms";
 
 export const RegisterPage = () => {
@@ -12,5 +13,5 @@ export const RegisterPage = () => {
 };
 
 RegisterPage.getLayout = (page: React.ReactElement) => {
-  return <>{page}</>;
+  return <AuthLayout>{page}</AuthLayout>;
 };
