@@ -26,11 +26,7 @@ export const SidebarCollapsibleItem = ({
   return (
     <SidebarMenuButton asChild isActive={activeLink}>
       <Link href={props.url}>
-        <Icon
-          name={props.icon as keyof typeof icons}
-          size={40}
-          className="mr-1"
-        />
+        <Icon name={props.icon as keyof typeof icons} className="mr-1" />
         <span>{props.title}</span>
       </Link>
     </SidebarMenuButton>

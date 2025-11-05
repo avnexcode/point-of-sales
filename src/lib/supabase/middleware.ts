@@ -1,4 +1,5 @@
 import { env } from "@/configs/env";
+import type { UserRole } from "@prisma/client";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import serverI18n from "../i18n/server";
@@ -7,6 +8,8 @@ const PATHS = {
   DEFAULT_REDIRECT: "/dashboard",
   AUTH_REDIRECT: "/login",
   PUBLIC_ROUTES: ["/", "/login", "/register"],
+  EMPLOYEE_ROUTES: ["/cashier"],
+  ADMIN_ROUTES: ["/dashboard"],
 };
 
 export const updateSession = async (
@@ -42,6 +45,9 @@ export const updateSession = async (
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const role = user?.app_metadata.role as UserRole;
+  console.log({ role });
 
   const language =
     request.headers.get("accept-language")?.split(",")[0]?.split("-")[0] ??

@@ -1,14 +1,24 @@
-import { icons } from "lucide-react";
+import { icons, type LucideProps } from "lucide-react";
+import { forwardRef } from "react";
 
 type IconProps = {
   name: keyof typeof icons;
-  color?: string;
-  size?: number;
-  className?: string;
-};
+} & Omit<LucideProps, "ref">;
 
-export const Icon = ({ name, color, size = 40, className }: IconProps) => {
-  const LucideIcon = icons[name];
+export const Icon = forwardRef<SVGSVGElement, IconProps>(
+  ({ name, color, size = 40, className, ...prop }, ref) => {
+    const LucideIcon = icons[name];
 
-  return <LucideIcon color={color} size={size} className={className} />;
-};
+    return (
+      <LucideIcon
+        ref={ref}
+        color={color}
+        size={size}
+        className={className}
+        {...prop}
+      />
+    );
+  },
+);
+
+Icon.displayName = "Icon";

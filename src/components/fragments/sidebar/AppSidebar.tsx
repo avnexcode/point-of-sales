@@ -1,7 +1,7 @@
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { renderElements } from "@/utils";
 import { usePathname } from "next/navigation";
-import { menu } from "./menu";
+import { createSidebarMenu } from "./menu";
 import { SidebarFooter } from "./SidebarFooter";
 import { SidebarGroup } from "./SidebarGroup";
 import { SidebarHeader } from "./SidebarHeader";
@@ -13,7 +13,7 @@ export const AppSidebar = () => {
       <SidebarHeader />
       <SidebarContent className="overflow-x-hidden">
         {renderElements({
-          of: menu,
+          of: createSidebarMenu(),
           keyExtractor: (sidebar) => sidebar.label,
           render: (sidebar) => (
             <SidebarGroup

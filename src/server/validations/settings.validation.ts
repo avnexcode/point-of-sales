@@ -9,6 +9,7 @@ export const createSettingsRequest = z.object({
   theme: z.enum(theme).default("SYSTEM"),
   language: z.enum(language).default("ID"),
   currency: z.enum(currency).default("IDR"),
+  notification: z.boolean().default(true),
 });
 
 export const updateSettingsRequest = createSettingsRequest.partial();

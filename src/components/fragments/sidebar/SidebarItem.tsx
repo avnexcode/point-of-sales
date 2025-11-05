@@ -25,13 +25,13 @@ export const SidebarItem = (props: SidebarItemProps) => {
     <>
       {props.type === "Single" && (
         <SidebarMenuItem>
-          <SidebarMenuButton asChild isActive={activeLink}>
+          <SidebarMenuButton
+            asChild
+            isActive={activeLink}
+            className="py-[22px]"
+          >
             <Link href={props.url ?? ""}>
-              <Icon
-                name={props.icon as keyof typeof icons}
-                size={40}
-                className="mr-1"
-              />
+              <Icon name={props.icon as keyof typeof icons} className="mr-2" />
               <span>{props.title}</span>
             </Link>
           </SidebarMenuButton>

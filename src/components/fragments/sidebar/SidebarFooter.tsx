@@ -39,12 +39,15 @@ export const SidebarFooter = () => {
               className="min-w-[var(--radix-dropdown-menu-trigger-width)]"
             >
               <DropdownMenuItem>
+                <Icon name={"User"} className="mr-2" />
                 <span>Profile</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
+                <Icon name={"Settings"} className="mr-2" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>
+                <Icon name={"LogOut"} className="mr-2" />
                 <span>Logout</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

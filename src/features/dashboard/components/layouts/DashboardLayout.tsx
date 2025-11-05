@@ -29,7 +29,7 @@ export const DashboardLayout = forwardRef<
         {withHeader && <DashboardHeader title={title} />}
         <main
           ref={ref}
-          className={cn("mt-5 flex flex-col", className)}
+          className={cn("my-10 flex flex-col", className)}
           {...props}
         >
           {children}

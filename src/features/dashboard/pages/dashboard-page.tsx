@@ -3,66 +3,75 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
-import { DashboardLayout } from "../components/layouts";
-import { Heading } from "@/components/ui/heading";
-import { Line } from "react-chartjs-2";
 import { ChartjsProvider } from "@/components/layouts/providers";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Heading } from "@/components/ui/heading";
+import { DoughnutChart, LineChart } from "../components";
+import { DashboardLayout } from "../components/layouts";
 
 type DashboardPageProps = {
   sidebarDefaultOpen: boolean;
 };
 
 export const DashboardPage = () => {
-  const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "Total Penjualan",
-        data: [120, 190, 150, 220, 300, 250],
-        borderColor: "rgba(75,192,192,1)",
-        backgroundColor: "rgba(75,192,192,0.2)",
-        tension: 0.3,
-        fill: true,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-        labels: {
-          font: { size: 14 },
-        },
-      },
-      title: {
-        display: true,
-        text: "Grafik Penjualan Bulanan",
-        font: { size: 18 },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: { stepSize: 50 },
-      },
-    },
-  };
-
   return (
     <PageContainer title="Dashboard">
       <SectionContainer padded>
-        <DashboardLayout title="Dashboard">
+        <DashboardLayout title="Dashboard" className="space-y-10">
           <Heading className="font-bold" size={"h4"}>
             Statistik Judol
           </Heading>
+          <div className="grid grid-cols-4 gap-x-5 py-10">
+            <Card className="mx-auto w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Produk</CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+            <Card className="mx-auto w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Produk</CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+            <Card className="mx-auto w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Produk</CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+            <Card className="mx-auto w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Produk</CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+          </div>
           <ChartjsProvider>
-            <Line
-              data={data}
-              options={options}
-              className="max-h-[50vh] max-w-full"
-            />
+            <div>
+              <LineChart />
+            </div>
+            <div className="grid grid-cols-3">
+              <div className="mx-auto w-full max-w-[350px]">
+                <DoughnutChart />
+              </div>
+              <div className="mx-auto w-full max-w-[350px]">
+                <DoughnutChart />
+              </div>
+              <div className="mx-auto w-full max-w-[350px]">
+                <DoughnutChart />
+              </div>
+            </div>
           </ChartjsProvider>
         </DashboardLayout>
       </SectionContainer>

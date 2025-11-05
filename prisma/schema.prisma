@@ -9,17 +9,6 @@ datasource db {
     schemas   = ["public"]
 }
 
-model TemplateModel {
-    id String @id @default(uuid()) @map("id") @db.VarChar(255)
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-
-    @@index([id])
-    @@map("template_models")
-    @@schema("public")
-}
-
 enum LoginProvider {
     EMAIL
     GOOGLE
@@ -29,25 +18,30 @@ enum LoginProvider {
 }
 
 enum UserRole {
-    ADMIN   @map("admin")
-    CASHIER @map("cashier")
+    ADMIN    @map("admin")
+    EMPLOYEE @map("employee")
 
     @@map("user_role")
     @@schema("public")
 }
 
 model User {
-    id        String          @id @default(uuid()) @map("id") @db.VarChar(255)
-    name      String          @map("name") @db.Text
-    username  String          @unique @map("username") @db.Text
-    email     String          @unique @map("email") @db.Text
-    phone     String?         @unique @map("phone") @db.Text
+    id        String          @id @default(uuid()) @map("id") @db.VarChar(56)
+    name      String          @map("name") @db.VarChar(100)
+    username  String          @unique @map("username") @db.VarChar(50)
+    email     String          @unique @map("email") @db.VarChar(50)
+    phone     String?         @unique @map("phone") @db.VarChar(15)
     avatar    String?         @map("avatar")
     image     String?         @map("image")
-    role      UserRole        @default(ADMIN) @map("role")
     providers LoginProvider[] @default([]) @map("providers")
+    role      UserRole        @default(ADMIN) @map("role")
 
-    settings Settings?
+    settings       Settings?
+    permissions    Permissions?
+    userStores     UserStore[]
+    userWarehouses UserWarehouse[]
+    orders         Order[]
+    purchases      Purchase[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
@@ -56,6 +50,7 @@ model User {
     @@index([username])
     @@index([name])
     @@index([email])
+    @@index([phone])
     @@map("users")
     @@schema("public")
 }
@@ -90,10 +85,11 @@ enum Currency {
 }
 
 model Settings {
-    id       String   @id @default(uuid()) @map("id")
-    theme    Theme    @default(SYSTEM) @map("theme")
-    language Language @default(ID) @map("language")
-    currency Currency @default(IDR) @map("currency")
+    id           String   @id @default(uuid()) @map("id") @db.VarChar(56)
+    theme        Theme    @default(SYSTEM) @map("theme")
+    language     Language @default(ID) @map("language")
+    currency     Currency @default(IDR) @map("currency")
+    notification Boolean  @default(true)
 
     userId String @unique @map("user_id")
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -105,3 +101,419 @@ model Settings {
     @@map("settings")
     @@schema("public")
 }
+
+model Permissions {
+    id String @id @default(uuid()) @map("id") @db.VarChar(56)
+
+    createStore        Boolean @default(false) @map("create_store")
+    updateStore        Boolean @default(false) @map("update_store")
+    deleteStore        Boolean @default(false) @map("delete_store")
+    createWarehouse    Boolean @default(false) @map("create_warehouse")
+    updateWarehouse    Boolean @default(false) @map("update_warehouse")
+    deleteWarehouse    Boolean @default(false) @map("delete_warehouse")
+    createCategory     Boolean @default(false) @map("create_category")
+    updateCategory     Boolean @default(false) @map("update_category")
+    deleteCategory     Boolean @default(false) @map("delete_category")
+    createProduct      Boolean @default(false) @map("create_product")
+    updateProduct      Boolean @default(false) @map("update_product")
+    deleteProduct      Boolean @default(false) @map("delete_product")
+    updateNotification Boolean @default(false) @map("update_notification")
+    deleteNotification Boolean @default(false) @map("delete_notification")
+
+    userId String @unique @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("permissions")
+    @@schema("public")
+}
+
+model UserStore {
+    id String @id @default(uuid()) @map("id") @db.VarChar(56)
+
+    userId  String @map("user_id") @db.VarChar(56)
+    user    User   @relation(fields: [userId], references: [id])
+    storeId String @map("store_id") @db.VarChar(56)
+    store   Store  @relation(fields: [storeId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("user_stores")
+    @@schema("public")
+}
+
+enum AmountType {
+    NONE       @map("none")
+    PERCENTAGE @map("percentage")
+    NOMINAL    @map("nominal")
+
+    @@map("amount_type")
+    @@schema("public")
+}
+
+model Store {
+    id            String     @id @default(uuid()) @map("id") @db.VarChar(56)
+    slug          String     @map("slug") @db.VarChar(150)
+    name          String     @map("name") @db.VarChar(50)
+    address       String     @map("address") @db.VarChar(255)
+    discount      AmountType @default(NONE) @map("discount")
+    totalDiscount Int        @map("total_discount")
+    tax           AmountType @default(NONE) @map("tax")
+    totalTax      Int        @default(0) @map("total_tax")
+
+    userStores    UserStore[]
+    notifications Notification[]
+    warehouses    Warehouse[]
+    members       Member[]
+    orders        Order[]
+    transactions  Transaction[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("stores")
+    @@schema("public")
+}
+
+model Notification {
+    id      String @id @default(uuid()) @map("id") @db.VarChar(56)
+    slug    String @map("slug") @db.VarChar(150)
+    title   String @map("title") @db.VarChar(100)
+    message String @map("message") @db.VarChar(255)
+
+    storeId String @map("store_id") @db.VarChar(56)
+    store   Store  @relation(fields: [storeId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("notifications")
+    @@schema("public")
+}
+
+model UserWarehouse {
+    id String @id @default(uuid()) @map("id") @db.VarChar(56)
+
+    userId      String    @map("user_id") @db.VarChar(56)
+    user        User      @relation(fields: [userId], references: [id])
+    warehouseId String    @map("warehouse_id") @db.VarChar(56)
+    warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("user_warehouses")
+    @@schema("public")
+}
+
+model Warehouse {
+    id      String @id @default(uuid()) @map("id") @db.VarChar(56)
+    slug    String @map("slug") @db.VarChar(150)
+    name    String @map("name") @db.VarChar(50)
+    address String @map("address") @db.VarChar(255)
+
+    userWarehouses    UserWarehouse[]
+    storeId           String            @map("store_id") @db.VarChar(56)
+    store             Store             @relation(fields: [storeId], references: [id])
+    productCategories ProductCategory[]
+    products          Product[]
+    purchases         Purchase[]
+    transactions      Transaction[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("warehouses")
+    @@schema("public")
+}
+
+model ProductCategory {
+    id   String @id @default(uuid()) @map("id") @db.VarChar(56)
+    slug String @map("slug") @db.VarChar(150)
+    name String @map("name") @db.VarChar(50)
+
+    warehouseId String    @map("store_id") @db.VarChar(56)
+    warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+    products    Product[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("product_categories")
+    @@schema("public")
+}
+
+enum BarcodeType {
+    EAN13
+    UPC
+    CODE128
+    CODE39
+    QR
+
+    @@map("barcode_type")
+    @@schema("public")
+}
+
+model Product {
+    id            String      @id @default(uuid()) @map("id") @db.VarChar(56)
+    slug          String      @map("slug") @db.VarChar(150)
+    name          String      @map("name") @db.VarChar(50)
+    purchase      Int         @map("purchase")
+    price         Int         @map("price")
+    quantity      Int         @map("quantity")
+    barcodeType   BarcodeType @default(EAN13) @map("barcode_type")
+    barcode       String      @map("barcode") @db.VarChar(128)
+    discount      AmountType  @default(NONE) @map("discount")
+    totalDiscount Int         @map("total_discount")
+    tax           AmountType  @default(NONE) @map("tax")
+    totalTax      Int         @default(0) @map("total_tax")
+    finalPrice    Int         @map("final_price")
+
+    warehouseId   String           @map("store_id") @db.VarChar(56)
+    warehouse     Warehouse        @relation(fields: [warehouseId], references: [id])
+    categoryId    String?          @map("category_id") @db.VarChar(56)
+    category      ProductCategory? @relation(fields: [categoryId], references: [id])
+    orderItems    OrderItem[]
+    purchaseItems PurchaseItem[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("products")
+    @@schema("public")
+}
+
+model Member {
+    id            String     @id @default(uuid()) @map("id") @db.VarChar(56)
+    slug          String     @map("slug") @db.VarChar(150)
+    name          String     @map("name") @db.VarChar(50)
+    email         String?    @map("email")
+    phone         String?    @map("phone")
+    address       String?    @map("address") @db.VarChar(255)
+    discount      AmountType @default(NONE) @map("discount")
+    totalDiscount Int        @map("total_discount")
+
+    storeId String? @map("store_id") @db.VarChar(56)
+    store   Store?  @relation(fields: [storeId], references: [id])
+
+    transactions Transaction[]
+    orders       Order[]
+    payments     Payment[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("members")
+    @@schema("public")
+}
+
+model OrderItem {
+    id            String     @id @default(uuid()) @map("id") @db.VarChar(56)
+    name          String     @map("name")
+    image         String?    @map("image")
+    quantity      Int        @map("quantity")
+    unitPrice     Int        @map("unit_price")
+    discount      AmountType @default(NONE) @map("discount")
+    totalDiscount Int        @map("total_discount")
+    tax           AmountType @default(NONE) @map("tax")
+    totalTax      Int        @default(0) @map("total_tax")
+    subtotal      Int        @map("subtotal")
+
+    productId String  @db.VarChar(56)
+    product   Product @relation(fields: [productId], references: [id])
+    orderId   String  @db.VarChar(56)
+    order     Order   @relation(fields: [orderId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("order_items")
+    @@schema("public")
+}
+
+model Order {
+    id            String     @id @default(uuid()) @map("id") @db.VarChar(56)
+    discount      AmountType @default(NONE) @map("discount")
+    totalDiscount Int        @map("total_discount")
+    tax           AmountType @default(NONE) @map("tax")
+    totalTax      Int        @default(0) @map("total_tax")
+    subtotal      Int        @map("subtotal")
+    total         Int        @map("total")
+    notes         String?    @map("notes") @db.VarChar(255)
+
+    userId      String       @map("user_id") @db.VarChar(56)
+    user        User         @relation(fields: [userId], references: [id])
+    storeId     String       @map("store_id") @db.VarChar(56)
+    store       Store        @relation(fields: [storeId], references: [id])
+    memberId    String?      @map("member_id") @db.VarChar(56)
+    member      Member?      @relation(fields: [memberId], references: [id])
+    orderItems  OrderItem[]
+    transaction Transaction?
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("orders")
+    @@schema("public")
+}
+
+model PurchaseItem {
+    id        String  @id @default(uuid()) @map("id") @db.VarChar(56)
+    name      String  @map("name")
+    image     String? @map("image")
+    quantity  Int     @map("quantity")
+    unitPrice Int     @map("unit_price")
+    subtotal  Int     @map("subtotal")
+
+    productId  String    @db.VarChar(56)
+    product    Product   @relation(fields: [productId], references: [id])
+    purchaseId String?   @unique
+    purchase   Purchase? @relation(fields: [purchaseId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("purchase_items")
+    @@schema("public")
+}
+
+model Purchase {
+    id       String  @id @default(uuid()) @map("id") @db.VarChar(56)
+    subtotal Int     @map("subtotal")
+    total    Int     @map("total")
+    notes    String? @map("notes") @db.VarChar(255)
+
+    userId        String         @map("user_id") @db.VarChar(56)
+    user          User           @relation(fields: [userId], references: [id])
+    warehouseId   String         @map("warehouse_id") @db.VarChar(56)
+    warehouse     Warehouse      @relation(fields: [warehouseId], references: [id])
+    purchaseItems PurchaseItem[]
+    transaction   Transaction?
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("purchase")
+    @@schema("public")
+}
+
+enum TransactionType {
+    INCOME  @map("income")
+    OUTCOME @map("outcome")
+
+    @@map("transaction_type")
+    @@schema("public")
+}
+
+enum PaymentMethod {
+    CASH            @map("cash")
+    BANK_TRANSFER   @map("bank_transfer")
+    VIRTUAL_ACCOUNT @map("virtual_account")
+    QRISH           @map("qris")
+
+    @@map("payment_method")
+    @@schema("public")
+}
+
+model Transaction {
+    id           String          @id @default(uuid()) @map("id") @db.VarChar(56)
+    type         TransactionType @default(INCOME)
+    method       PaymentMethod   @default(CASH) @map("method")
+    amount       Int             @map("amount")
+    paidAmount   Int             @map("paid_amount")
+    changeAmount Int             @default(0) @map("change_amount")
+
+    storeId     String?    @map("store_id") @db.VarChar(56)
+    store       Store?     @relation(fields: [storeId], references: [id])
+    orderId     String?    @unique
+    order       Order?     @relation(fields: [orderId], references: [id])
+    memberId    String?    @map("member_id") @db.VarChar(56)
+    member      Member?    @relation(fields: [memberId], references: [id])
+    warehouseId String?    @map("warehouse_id") @db.VarChar(56)
+    warehouse   Warehouse? @relation(fields: [warehouseId], references: [id])
+    purchaseId  String?    @unique
+    purchase    Purchase?  @relation(fields: [purchaseId], references: [id])
+    payment     Payment?
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("transactions")
+    @@schema("public")
+}
+
+enum PaymentStatus {
+    PENDING   @map("pending")
+    SUCCESS   @map("success")
+    FAILED    @map("failed")
+    EXPIRED   @map("expired")
+    REFUNDED  @map("refunded")
+    CANCELLED @map("cancelled")
+
+    @@map("payment_status")
+    @@schema("public")
+}
+
+model Payment {
+    id                   String        @id @default(uuid()) @map("id") @db.VarChar(56)
+    method               PaymentMethod @default(VIRTUAL_ACCOUNT) @map("method")
+    status               PaymentStatus @default(PENDING) @map("status")
+    amount               Int           @map("amount")
+    gatewayProvider      String?       @map("gateway_provider") @db.VarChar(50)
+    gatewayTransactionId String?       @map("gateway_transaction_id") @db.VarChar(100)
+    gatewayOrderId       String?       @map("gateway_order_id") @db.VarChar(100)
+    gatewayPaymentUrl    String?       @map("gateway_payment_url")
+    gatewayResponse      String?       @map("gateway_response")
+    gatewayCallbackData  String?       @map("gateway_callback_data")
+    notes                String?       @map("notes") @db.VarChar(255)
+    paidAt               DateTime?     @map("paid_at")
+    expiredAt            DateTime?     @map("expired_at")
+    refundedAt           DateTime?     @map("refund_at")
+
+    memberId      String?     @map("member_id") @db.VarChar(56)
+    member        Member?     @relation(fields: [memberId], references: [id])
+    transactionId String      @unique @map("transaction_id") @db.VarChar(56)
+    transaction   Transaction @relation(fields: [transactionId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([id])
+    @@map("payments")
+    @@schema("public")
+}
+
+// model Return {
+//     id String @id @default(uuid()) @map("id") @db.VarChar(56)
+
+//     userId   String  @map("user_id") @db.VarChar(56)
+//     user     User    @relation(fields: [userId], references: [id])
+//     storeId  String  @map("store_id") @db.VarChar(56)
+//     store    Store   @relation(fields: [storeId], references: [id])
+//     memberId String? @map("member_id") @db.VarChar(56)
+//     member   Member? @relation(fields: [memberId], references: [id])
+
+//     createdAt DateTime @default(now()) @map("created_at")
+//     updatedAt DateTime @updatedAt @map("updated_at")
+
+//     @@index([id])
+//     @@map("returns")
+//     @@schema("public")
+// }

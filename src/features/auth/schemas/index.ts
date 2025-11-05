@@ -47,10 +47,25 @@ export const createRegisterFormSchema = (t: TFunction = translator) => {
     });
 };
 
-export const createLoginFormSchema = (t: TFunction = translator) => {
+export const createAdminLoginFormSchema = (t: TFunction = translator) => {
   const passwordField = t("models.auth.fields.password");
   return z.object({
     email: createEmailValidation(t),
+    password: z.string().min(
+      1,
+      capitalizeSentence(
+        t("schemas.validation.common.required", {
+          field: passwordField,
+        }),
+      ),
+    ),
+  });
+};
+
+export const createEmployeeLoginFormSchema = (t: TFunction = translator) => {
+  const passwordField = t("models.auth.fields.password");
+  return z.object({
+    username: z.string().min(1),
     password: z.string().min(
       1,
       capitalizeSentence(

@@ -1,68 +1,20 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Heading } from "@/components/ui/heading";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
-import { FormProvider } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { OAuthSignIn } from "../components";
-import { useLogin } from "../hooks";
-import { LoginFormInner } from "./LoginFormInner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AdminLoginForm } from "./AdminLoginForm";
+import { EmployeeLoginForm } from "./EmployeeLoginForm";
 
 export const LoginForm = () => {
-  const { t } = useTranslation();
-  const { form, isLoginPending, onSubmit } = useLogin();
-
   return (
-    <Card className="sm:bg-card w-full max-w-2xl rounded-none border-0 bg-transparent shadow-none sm:rounded-xl sm:border sm:shadow-sm">
-      <CardHeader>
-        <CardTitle>
-          <Heading size={"h3"}>{t("pages.auth.login.header.title")}</Heading>
-        </CardTitle>
-        <CardDescription>
-          {t("pages.auth.login.header.description")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <OAuthSignIn />
-        <div className="flex w-full items-center gap-2 pt-8 pb-5 text-xs text-nowrap">
-          <div className="bg-secondary h-0.5 w-full rounded-xl" />
-          OR LOGIN WITH
-          <div className="bg-secondary h-0.5 w-full rounded-xl" />
-        </div>
-        <FormProvider {...form}>
-          <LoginFormInner formId="login-form" onSubmit={onSubmit} />
-        </FormProvider>
-      </CardContent>
-      <CardFooter className="flex-col place-content-between gap-y-5 pt-7">
-        <Button form="login-form" className="w-full" disabled={isLoginPending}>
-          {isLoginPending ? (
-            <>
-              <Loader2 className="animate-spin" />
-              {t("pages.auth.login.footer.submitButtonLoading")} . . .
-            </>
-          ) : (
-            t("pages.auth.login.footer.submitButton")
-          )}
-        </Button>
-        <span className="text-muted-foreground text-sm">
-          {t("pages.auth.login.footer.caption")}{" "}
-          <Link
-            href="/register"
-            className="font-medium text-blue-600 underline hover:underline"
-          >
-            {t("pages.auth.login.footer.captionRedirect")}
-          </Link>
-        </span>
-      </CardFooter>
-    </Card>
+    <Tabs defaultValue="admin" className="w-full max-w-2xl">
+      <TabsList className="sm:bg-muted w-full bg-transparent">
+        <TabsTrigger value="admin">Admin</TabsTrigger>
+        <TabsTrigger value="employee">Employee</TabsTrigger>
+      </TabsList>
+      <TabsContent value="admin">
+        <AdminLoginForm />
+      </TabsContent>
+      <TabsContent value="employee">
+        <EmployeeLoginForm />
+      </TabsContent>
+    </Tabs>
   );
 };

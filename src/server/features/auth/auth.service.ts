@@ -43,7 +43,13 @@ export class AuthService extends BaseService {
 
     try {
       const { data: registeredData, error: registeredError } =
-        await supabaseAdminClient.auth.admin.createUser({ email, password });
+        await supabaseAdminClient.auth.admin.createUser({
+          email,
+          password,
+          app_metadata: {
+            role: "admin",
+          },
+        });
 
       if (registeredData.user) userId = registeredData.user.id;
 
@@ -62,14 +68,15 @@ export class AuthService extends BaseService {
       const user = await UserService.create(db, userId, {
         name,
         email,
-        role: "ADMIN",
         provider: "EMAIL",
+        role: "ADMIN",
       });
 
       await SettingsService.create(db, userId, {
         theme: "SYSTEM",
         language: "ID",
         currency: "IDR",
+        notification: true,
       });
 
       return user;

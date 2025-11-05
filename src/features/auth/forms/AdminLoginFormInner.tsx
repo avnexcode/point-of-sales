@@ -2,20 +2,23 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import type { LoginFormSchema } from "../types";
+import type { AdminLoginFormSchema } from "../types";
 import { useState } from "react";
 import { TogglePasswordVisibility } from "../components";
 
-type LoginFormInnerProps = {
+type AdminLoginFormInnerProps = {
   formId: string;
-  onSubmit: (values: LoginFormSchema) => void;
+  onSubmit: (values: AdminLoginFormSchema) => void;
 };
 
-export const LoginFormInner = ({ formId, onSubmit }: LoginFormInnerProps) => {
+export const AdminLoginFormInner = ({
+  formId,
+  onSubmit,
+}: AdminLoginFormInnerProps) => {
   const { t } = useTranslation();
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const form = useFormContext<LoginFormSchema>();
+  const form = useFormContext<AdminLoginFormSchema>();
 
   return (
     <form

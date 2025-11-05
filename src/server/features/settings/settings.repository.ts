@@ -71,6 +71,7 @@ export class SettingsRepository {
         language: true,
         currency: true,
         createdAt: true,
+        notification: true,
       },
     });
 

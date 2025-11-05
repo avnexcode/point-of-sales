@@ -35,7 +35,7 @@ export const RegisterForm = () => {
           <RegisterFormInner formId="register-form" onSubmit={onSubmit} />
         </FormProvider>
       </CardContent>
-      <CardFooter className="flex-col place-content-between gap-y-5 pt-7">
+      <CardFooter className="flex-col place-content-between gap-y-5 pt-5">
         <Button
           form="register-form"
           className="w-full"

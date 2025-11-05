@@ -87,6 +87,7 @@
     "auth": {
       "title": "auth",
       "fields": {
+        "username": "username",
         "email": "email",
         "password": "password",
         "currentPassword": "current password",
@@ -219,6 +220,10 @@
       }
     }
   },
+  "components": {
+    "sidebar": {}
+  },
+  "tables": {},
   "forms": {
     "placeholders": {
       "input": "Input {{field}} here"
@@ -343,8 +348,6 @@
       }
     }
   },
-  "tables": {},
-  "components": {},
   "hello": "Hello World",
   "greeting": {
     "welcome": "Welcome",

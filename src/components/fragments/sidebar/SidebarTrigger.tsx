@@ -5,7 +5,7 @@ export const SidebarTrigger = () => {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <button onClick={toggleSidebar} className="py-2">
+    <button onClick={toggleSidebar} className="pt-3.5 pb-2">
       <TextAlignJustify size={30} />
     </button>
   );
