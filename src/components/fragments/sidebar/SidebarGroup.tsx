@@ -17,7 +17,9 @@ type SidebarGroupProps = {
 export const SidebarGroup = (props: SidebarGroupProps) => {
   return (
     <SidebarGroupComponent>
-      <SidebarGroupLabel>{props.label}</SidebarGroupLabel>
+      <SidebarGroupLabel className="capitalize">
+        {props.label}
+      </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu className="space-y-1">
           {renderElements({

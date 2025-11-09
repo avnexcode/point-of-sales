@@ -1,6 +1,5 @@
 import { Icon } from "@/components/ui/icon";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { type icons } from "lucide-react";
 import Link from "next/link";
 import { type SidebarMenuItemType } from "./menu";
 import { isPathMatchingPattern } from "./sidebar-utils";
@@ -28,10 +27,10 @@ export const SidebarItem = (props: SidebarItemProps) => {
           <SidebarMenuButton
             asChild
             isActive={activeLink}
-            className="py-[22px]"
+            className="py-[22px] capitalize"
           >
             <Link href={props.url ?? ""}>
-              <Icon name={props.icon as keyof typeof icons} className="mr-2" />
+              <Icon name={props.icon} className="mr-2" />
               <span>{props.title}</span>
             </Link>
           </SidebarMenuButton>

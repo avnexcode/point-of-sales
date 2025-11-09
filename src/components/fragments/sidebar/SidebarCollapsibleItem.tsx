@@ -1,9 +1,8 @@
 import { Icon } from "@/components/ui/icon";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
-import { isPathMatchingPattern } from "./sidebar-utils";
-import { type icons } from "lucide-react";
 import Link from "next/link";
 import { type SidebarSubMenuItemType } from "./menu";
+import { isPathMatchingPattern } from "./sidebar-utils";
 
 type SidebarCollapsibleItemProps = {
   pathname: string;
@@ -24,9 +23,9 @@ export const SidebarCollapsibleItem = ({
   const activeLink = isExactMatch || isActivePatternMatch;
 
   return (
-    <SidebarMenuButton asChild isActive={activeLink}>
+    <SidebarMenuButton asChild isActive={activeLink} className="capitalize">
       <Link href={props.url}>
-        <Icon name={props.icon as keyof typeof icons} className="mr-1" />
+        <Icon name={props.icon} className="mr-1" />
         <span>{props.title}</span>
       </Link>
     </SidebarMenuButton>

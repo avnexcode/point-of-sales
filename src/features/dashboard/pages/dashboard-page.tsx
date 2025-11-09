@@ -4,15 +4,9 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { ChartjsProvider } from "@/components/layouts/providers";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { Heading } from "@/components/ui/heading";
-import { DoughnutChart, LineChart } from "../components";
+import { DashboardBadge, DoughnutChart, LineChart } from "../components";
 import { DashboardLayout } from "../components/layouts";
 
 type DashboardPageProps = {
@@ -24,44 +18,21 @@ export const DashboardPage = () => {
     <PageContainer title="Dashboard">
       <SectionContainer padded>
         <DashboardLayout title="Dashboard" className="space-y-10">
-          <Heading className="font-bold" size={"h4"}>
-            Statistik Judol
-          </Heading>
-          <div className="grid grid-cols-4 gap-x-5 py-10">
-            <Card className="mx-auto w-full max-w-md">
-              <CardHeader>
-                <CardTitle>Produk</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-              <CardFooter></CardFooter>
-            </Card>
-            <Card className="mx-auto w-full max-w-md">
-              <CardHeader>
-                <CardTitle>Produk</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-              <CardFooter></CardFooter>
-            </Card>
-            <Card className="mx-auto w-full max-w-md">
-              <CardHeader>
-                <CardTitle>Produk</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-              <CardFooter></CardFooter>
-            </Card>
-            <Card className="mx-auto w-full max-w-md">
-              <CardHeader>
-                <CardTitle>Produk</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-              <CardFooter></CardFooter>
-            </Card>
+          <div className="grid grid-cols-1 gap-5 py-10 xl:grid-cols-2 2xl:grid-cols-3">
+            <DashboardBadge
+              header={{ title: "Product", icon: "AppWindowMac" }}
+              content="$127.98"
+              footer="+12% from last month"
+            />
           </div>
           <ChartjsProvider>
+            <Heading className="font-bold" size={"h4"}>
+              Statistik Judol
+            </Heading>
             <div>
               <LineChart />
             </div>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-4">
               <div className="mx-auto w-full max-w-[350px]">
                 <DoughnutChart />
               </div>

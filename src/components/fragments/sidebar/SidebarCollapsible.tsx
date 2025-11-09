@@ -10,7 +10,7 @@ import {
   SidebarMenuSub,
 } from "@/components/ui/sidebar";
 import { renderElements } from "@/utils";
-import { ChevronDown, ChevronRight, type icons } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { type SidebarMenuItemType } from "./menu";
 import { isPathMatchingPattern } from "./sidebar-utils";
@@ -43,8 +43,8 @@ export const SidebarCollapsible = (props: SidebarCollapsibleProps) => {
       <SidebarMenuItem>
         <CollapsibleTrigger asChild className="py-[22px]">
           <SidebarMenuButton>
-            <Icon name={props.icon as keyof typeof icons} className="mr-2" />
-            <span className="flex w-full items-center justify-between">
+            <Icon name={props.icon} className="mr-2" />
+            <span className="flex w-full items-center justify-between capitalize">
               {props.title}{" "}
               {isCollapsibleOpen ? <ChevronDown /> : <ChevronRight />}
             </span>

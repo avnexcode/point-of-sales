@@ -221,7 +221,30 @@
     }
   },
   "components": {
-    "sidebar": {}
+    "sidebar": {
+      "groups": {
+        "application": "application"
+      },
+      "items": {
+        "dashboard": "dashboard",
+        "store": "store",
+        "warehouse": "warehouse",
+        "cashier": "cashier",
+        "member": "member",
+        "order": "order",
+        "transaction": "transaction",
+        "return": "return",
+        "tables": "tables",
+        "profile": "profile",
+        "resetPassword": "reset password",
+        "settings": "settings",
+        "employee": "employee",
+        "category": "category",
+        "product": "product",
+        "prompt": "prompt",
+        "supplier": "supplier"
+      }
+    }
   },
   "tables": {},
   "forms": {

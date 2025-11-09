@@ -209,6 +209,32 @@
       }
     }
   },
+  "components": {
+    "sidebar": {
+      "groups": {
+        "application": "aplikasi"
+      },
+      "items": {
+        "dashboard": "dasbor",
+        "store": "toko",
+        "warehouse": "gudang",
+        "cashier": "kasir",
+        "member": "pelanggan",
+        "order": "pesanan",
+        "transaction": "transaksi",
+        "return": "retur",
+        "tables": "tabel",
+        "profile": "profil",
+        "resetPassword": "atur ulang kata sandi",
+        "settings": "pengaturan",
+        "employee": "karyawan",
+        "category": "kategori",
+        "product": "produk",
+        "prompt": "prompt",
+        "supplier": "pemasok"
+      }
+    }
+  },
   "forms": {
     "placeholders": {
       "input": "Masukkan {{field}} di sini"
@@ -334,7 +360,6 @@
     }
   },
   "tables": {},
-  "components": {},
   "hello": "Halo Dunia",
   "greeting": {
     "welcome": "Selamat Datang",

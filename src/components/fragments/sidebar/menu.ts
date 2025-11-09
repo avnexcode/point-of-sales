@@ -1,9 +1,10 @@
 import { t as translator, type TFunction } from "i18next";
+import type { icons } from "lucide-react";
 
 export type SidebarSubMenuItemType = {
   title: string;
   url: string;
-  icon: string;
+  icon: keyof typeof icons;
   active: string[];
 };
 
@@ -11,7 +12,7 @@ export type SidebarMenuItemType = {
   type: "Single" | "Collapsible";
   title: string;
   url?: string;
-  icon: string;
+  icon: keyof typeof icons;
   active: string[];
   subMenu?: SidebarSubMenuItemType[];
 };
@@ -24,34 +25,36 @@ export type SidebarMenuType = {
 export const createSidebarMenu = (
   t: TFunction = translator,
 ): SidebarMenuType[] => {
+  const sidebarGroups = "components.sidebar.groups";
+  const sidebarItems = "components.sidebar.items";
   return [
     {
-      label: "Application",
+      label: t(`${sidebarGroups}.application`),
       menu: [
         {
           type: "Single",
-          title: "Dashboard",
+          title: t(`${sidebarItems}.dashboard`),
           url: "/dashboard",
           icon: "LayoutDashboard",
           active: [""],
         },
         {
           type: "Single",
-          title: "Store",
+          title: t(`${sidebarItems}.store`),
           url: "/dashboard/store",
           icon: "Store",
           active: [""],
         },
         {
           type: "Single",
-          title: "Warehouse",
+          title: t(`${sidebarItems}.warehouse`),
           url: "/dashboard/warehouse",
           icon: "Warehouse",
           active: [""],
         },
         {
           type: "Single",
-          title: "Cashier",
+          title: t(`${sidebarItems}.cashier`),
           url: "/dashboard/cashier",
           icon: "Computer",
           active: [
@@ -62,7 +65,7 @@ export const createSidebarMenu = (
         },
         {
           type: "Single",
-          title: "Member",
+          title: t(`${sidebarItems}.member`),
           url: "/dashboard/member",
           icon: "User",
           active: [
@@ -73,7 +76,7 @@ export const createSidebarMenu = (
         },
         {
           type: "Single",
-          title: "Pesanan",
+          title: t(`${sidebarItems}.order`),
           url: "/dashboard/order",
           icon: "ShoppingBag",
           active: [
@@ -84,7 +87,7 @@ export const createSidebarMenu = (
         },
         {
           type: "Single",
-          title: "Transaksi",
+          title: t(`${sidebarItems}.transaction`),
           url: "/dashboard/transaction",
           icon: "ArrowLeftRight",
           active: [
@@ -94,7 +97,7 @@ export const createSidebarMenu = (
         },
         {
           type: "Single",
-          title: "Return",
+          title: t(`${sidebarItems}.return`),
           url: "/dashboard/return",
           icon: "RotateCcw",
           active: [
@@ -104,18 +107,30 @@ export const createSidebarMenu = (
         },
         {
           type: "Collapsible",
-          title: "Table",
+          title: t(`${sidebarItems}.tables`),
           icon: "Table2",
           active: [""],
           subMenu: [
             {
-              title: "Category",
+              title: t(`${sidebarItems}.category`),
               url: "#",
               icon: "Table",
               active: [""],
             },
             {
-              title: "Product",
+              title: t(`${sidebarItems}.product`),
+              url: "#",
+              icon: "Table",
+              active: [""],
+            },
+            {
+              title: t(`${sidebarItems}.prompt`),
+              url: "#",
+              icon: "Table",
+              active: [""],
+            },
+            {
+              title: t(`${sidebarItems}.supplier`),
               url: "#",
               icon: "Table",
               active: [""],
@@ -129,21 +144,21 @@ export const createSidebarMenu = (
       menu: [
         {
           type: "Single",
-          title: "Profile",
+          title: t(`${sidebarItems}.profile`),
           url: "settings/profile",
           icon: "User",
           active: [""],
         },
         {
           type: "Single",
-          title: "Reset Password",
+          title: t(`${sidebarItems}.resetPassword`),
           url: "/settings/reset-password",
           icon: "KeyRound",
           active: [""],
         },
         {
           type: "Single",
-          title: "Employee",
+          title: t(`${sidebarItems}.employee`),
           url: "/settings/user",
           icon: "Users",
           active: ["/settings/user/create"],
