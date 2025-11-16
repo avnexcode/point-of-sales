@@ -5,6 +5,8 @@ import type {
   DeleteSettingsRequest,
   DeleteSettingsResponse,
   SettingsResponse,
+  UpdateSettingsRequest,
+  UpdateSettingsResponse,
 } from "@/server/models";
 
 export class SettingsRepository {
@@ -19,6 +21,7 @@ export class SettingsRepository {
         theme: true,
         language: true,
         currency: true,
+        notification: true,
       },
     });
 
@@ -37,6 +40,7 @@ export class SettingsRepository {
         theme: true,
         language: true,
         currency: true,
+        notification: true,
       },
     });
 
@@ -72,6 +76,28 @@ export class SettingsRepository {
         currency: true,
         createdAt: true,
         notification: true,
+      },
+    });
+
+    return settings;
+  };
+
+  static update = async (
+    db: DBClient,
+    userId: string,
+    id: string,
+    request: UpdateSettingsRequest,
+  ): Promise<UpdateSettingsResponse> => {
+    const settings = await db.settings.update({
+      where: { userId, id },
+      data: { ...request },
+      select: {
+        id: true,
+        theme: true,
+        language: true,
+        currency: true,
+        notification: true,
+        updatedAt: true,
       },
     });
 

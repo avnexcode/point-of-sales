@@ -6,6 +6,8 @@ import type {
   DeleteSettingsRequest,
   DeleteSettingsResponse,
   SettingsResponse,
+  UpdateSettingsRequest,
+  UpdateSettingsResponse,
 } from "@/server/models";
 import { BaseService } from "../common";
 import { SettingsRepository } from "./settings.repository";
@@ -32,6 +34,30 @@ export class SettingsService extends BaseService {
     return settings;
   };
 
+  static update = async (
+    db: DBClient,
+    userId: string,
+    id: string,
+    request: UpdateSettingsRequest,
+  ): Promise<UpdateSettingsResponse> => {
+    const isSettingsByIdExists = await SettingsRepository.countUniqueId(
+      db,
+      userId,
+      id,
+    );
+
+    await this.checkExistsOrThrow(
+      "NULL",
+      isSettingsByIdExists > 0,
+      "NOT_FOUND",
+      this.baseModel,
+    );
+
+    const settings = await SettingsRepository.update(db, userId, id, request);
+
+    return settings;
+  };
+
   static delete = async (
     db: DBClient,
     userId: string,
@@ -43,7 +69,12 @@ export class SettingsService extends BaseService {
       request.id,
     );
 
-    await this.checkExistsOrThrow(isSettingsByIdExists > 0);
+    await this.checkExistsOrThrow(
+      "NULL",
+      isSettingsByIdExists > 0,
+      "NOT_FOUND",
+      this.baseModel,
+    );
 
     const settings = await SettingsRepository.destroy(db, userId, request);
 

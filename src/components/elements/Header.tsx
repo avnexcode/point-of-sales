@@ -1,4 +1,4 @@
-import { LanguageSwitcher, ThemeToggle } from "../actions";
+import { LanguageSwitcher, ThemeToggle } from "@/features/settings/components";
 
 export const Header = () => {
   return (

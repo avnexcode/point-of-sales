@@ -10,8 +10,8 @@ datasource db {
 }
 
 enum LoginProvider {
-    EMAIL
-    GOOGLE
+    EMAIL  @map("email")
+    GOOGLE @map("google")
 
     @@map("login_provider_f1e2d3c4-b5a6-47f8-90ab-cd1234567890")
     @@schema("public")
@@ -45,8 +45,8 @@ model User {
     returns        Return[]
     reports        Report[]
 
-    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7c8d_1e2f_ef6234567899")
-    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7d8e_2f3a_ef6234567800")
+    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7c8d_1e2f_ef6234567899") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7d8e_2f3a_ef6234567800") @db.Timestamp
 
     @@index([id], name: "idx_user_id")
     @@index([username], name: "idx_user_username")
@@ -101,8 +101,8 @@ model Settings {
     userId String @unique @map("user_id_e1f2a3b4_c5d6_7e8f_3a4b_ef6234567895") @db.VarChar(56)
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    createdAt DateTime @default(now()) @map("created_at_f1a2b3c4_d5e6_7f8a_4b5c_ef6234567896")
-    updatedAt DateTime @updatedAt @map("updated_at_a1b2c3d4_e5f6_7a8b_9c0d_ef6234567897")
+    createdAt DateTime @default(now()) @map("created_at_f1a2b3c4_d5e6_7f8a_4b5c_ef6234567896") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_a1b2c3d4_e5f6_7a8b_9c0d_ef6234567897") @db.Timestamp
 
     @@index([id], name: "idx_settings_id")
     @@index([theme], name: "idx_settings_theme")
@@ -136,8 +136,8 @@ model Permissions {
     userId String @unique @map("user_id_c1d2e3f4_a5b6_7c8d_1e2f_ef6234567805") @db.VarChar(56)
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    createdAt DateTime @default(now()) @map("created_at_d1e2f3a4_b5c6_7d8e_2f3a_ef6234567806")
-    updatedAt DateTime @updatedAt @map("updated_at_e1f2a3b4_c5d6_7e8f_3a4b_ef6234567807")
+    createdAt DateTime @default(now()) @map("created_at_d1e2f3a4_b5c6_7d8e_2f3a_ef6234567806") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_e1f2a3b4_c5d6_7e8f_3a4b_ef6234567807") @db.Timestamp
 
     @@index([id], name: "idx_permissions_id")
     @@index([createStore], name: "idx_permissions_create_store")
@@ -169,8 +169,8 @@ model UserStore {
     storeId String @map("store_id_b1c2d3e4_f5a6_7b8c_0d1e_ef6234567892") @db.VarChar(56)
     store   Store  @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7c8d_1e2f_ef6234567893")
-    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7d8e_2f3a_ef6234567894")
+    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7c8d_1e2f_ef6234567893") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7d8e_2f3a_ef6234567894") @db.Timestamp
 
     @@index([id], name: "idx_user_store_id")
     @@index([userId], name: "idx_user_store_user_id")
@@ -192,30 +192,34 @@ enum AmountType {
 
 model Store {
     id            String     @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7a8b_9c0d_ef4234567890") @db.VarChar(56)
-    slug          String     @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef4234567891") @db.VarChar(255)
+    slug          String     @unique @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef4234567891") @db.VarChar(255)
     name          String     @map("name_b1c2d3e4_f5a6_7b8c_0d1e_ef4234567892") @db.VarChar(100)
     address       String     @map("address_c1d2e3f4_a5b6_7c8d_1e2f_ef4234567893") @db.VarChar(255)
+    image         String?    @map("image_a2b3c4d5_e6f7_8a9b_5c6d_fa7345678907")
     discount      AmountType @default(NONE) @map("discount_d1e2f3a4_b5c6_7d8e_2f3a_ef4234567894")
     totalDiscount Int        @default(0) @map("total_discount_e1f2a3b4_c5d6_7e8f_3a4b_ef4234567895") @db.Integer
     tax           AmountType @default(NONE) @map("tax_f1a2b3c4_d5e6_7f8a_4b5c_ef4234567896")
     totalTax      Int        @default(0) @map("total_tax_a1b2c3d4_e5f6_7a8b_9c0d_ef4234567897") @db.Integer
 
-    userStores    UserStore[]
-    notifications Notification[]
-    warehouses    Warehouse[]
-    members       Member[]
-    orders        Order[]
-    transactions  Transaction[]
-    returns       Return[]
-    reports       Report[]
+    userStores     UserStore[]
+    notifications  Notification[]
+    warehouses     Warehouse[]
+    members        Member[]
+    orders         Order[]
+    transactions   Transaction[]
+    returns        Return[]
+    reports        Report[]
+    prompts        Prompt[]
+    recomendations Recomendation[]
 
-    createdAt DateTime @default(now()) @map("created_at_b1c2d3e4_f5a6_7b8c_0d1e_ef4234567898")
-    updatedAt DateTime @updatedAt @map("updated_at_c1d2e3f4_a5b6_7c8d_1e2f_ef4234567899")
+    createdAt DateTime @default(now()) @map("created_at_b1c2d3e4_f5a6_7b8c_0d1e_ef4234567898") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_c1d2e3f4_a5b6_7c8d_1e2f_ef4234567899") @db.Timestamp
 
     @@index([id], name: "idx_store_id")
     @@index([slug], name: "idx_store_slug")
     @@index([name], name: "idx_store_name")
     @@index([address], name: "idx_store_address")
+    @@index([image], name: "image")
     @@index([discount], name: "idx_store_discount")
     @@index([totalDiscount], name: "idx_store_total_discount")
     @@index([tax], name: "idx_store_tax")
@@ -228,15 +232,15 @@ model Store {
 
 model Notification {
     id      String @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7a8b_9c0d_ef5234567890") @db.VarChar(56)
-    slug    String @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef5234567891") @db.VarChar(255)
+    slug    String @unique @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef5234567891") @db.VarChar(255)
     title   String @map("title_b1c2d3e4_f5a6_7b8c_0d1e_ef5234567892") @db.VarChar(150)
     message String @map("message_c1d2e3f4_a5b6_7c8d_1e2f_ef5234567893") @db.VarChar(255)
 
     storeId String @map("store_id_d1e2f3a4_b5c6_7d8e_2f3a_ef5234567894") @db.VarChar(56)
     store   Store  @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7e8f_3a4b_ef5234567895")
-    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7f8a_4b5c_ef5234567896")
+    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7e8f_3a4b_ef5234567895") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7f8a_4b5c_ef5234567896") @db.Timestamp
 
     @@index([id], name: "idx_notification_id")
     @@index([slug], name: "idx_notification_slug")
@@ -257,8 +261,8 @@ model UserWarehouse {
     warehouseId String    @map("warehouse_id_b1c2d3e4_f5a6_7b8c_0d1e_ef1234567892") @db.VarChar(56)
     warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7c8d_1e2f_ef1234567893")
-    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7d8e_2f3a_ef1234567894")
+    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7c8d_1e2f_ef1234567893") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7d8e_2f3a_ef1234567894") @db.Timestamp
 
     @@index([id], name: "idx_user_warehouse_id")
     @@index([userId], name: "idx_user_warehouse_user_id")
@@ -270,10 +274,11 @@ model UserWarehouse {
 }
 
 model Warehouse {
-    id      String @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7a8b_9c0d_ef2234567890") @db.VarChar(56)
-    slug    String @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef2234567891") @db.VarChar(255)
-    name    String @map("name_b1c2d3e4_f5a6_7b8c_0d1e_ef2234567892") @db.VarChar(100)
-    address String @map("address_c1d2e3f4_a5b6_7c8d_1e2f_ef2234567893") @db.VarChar(255)
+    id      String  @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7a8b_9c0d_ef2234567890") @db.VarChar(56)
+    slug    String  @unique @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef2234567891") @db.VarChar(255)
+    name    String  @map("name_b1c2d3e4_f5a6_7b8c_0d1e_ef2234567892") @db.VarChar(100)
+    address String  @map("address_c1d2e3f4_a5b6_7c8d_1e2f_ef2234567893") @db.VarChar(255)
+    image   String? @map("image_b3c4d5e6_f7a8_9b0c_6d7e_ab8456789018")
 
     userWarehouses    UserWarehouse[]
     storeId           String            @map("store_id_d1e2f3a4_b5c6_7d8e_2f3a_ef2234567894") @db.VarChar(56)
@@ -282,14 +287,16 @@ model Warehouse {
     products          Product[]
     purchases         Purchase[]
     transactions      Transaction[]
+    shelves           Shelf[]
 
-    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7e8f_3a4b_ef2234567895")
-    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7f8a_4b5c_ef2234567896")
+    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7e8f_3a4b_ef2234567895") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7f8a_4b5c_ef2234567896") @db.Timestamp
 
     @@index([id], name: "idx_warehouse_id")
     @@index([slug], name: "idx_warehouse_slug")
     @@index([name], name: "idx_warehouse_name")
     @@index([address], name: "idx_warehouse_address")
+    @@index([image], name: "idx_warehouse_image")
     @@index([storeId], name: "idx_warehouse_store_id")
     @@index([createdAt], name: "idx_warehouse_created_at")
     @@index([updatedAt], name: "idx_warehouse_updated_at")
@@ -299,7 +306,7 @@ model Warehouse {
 
 model ProductCategory {
     id          String @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7a8b_9c0d_ef3234567890") @db.VarChar(56)
-    slug        String @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef3234567891") @db.VarChar(255)
+    slug        String @unique @map("slug_a1b2c3d4_e5f6_7a8b_9c0d_ef3234567891") @db.VarChar(255)
     name        String @map("name_b1c2d3e4_f5a6_7b8c_0d1e_ef3234567892") @db.VarChar(100)
     description String @map("description_c1d2e3f4_a5b6_7c8d_1e2f_ef3234567893") @db.VarChar(255)
 
@@ -307,8 +314,8 @@ model ProductCategory {
     warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     products    Product[]
 
-    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7e8f_3a4b_ef3234567895")
-    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7f8a_4b5c_ef3234567896")
+    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7e8f_3a4b_ef3234567895") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7f8a_4b5c_ef3234567896") @db.Timestamp
 
     @@index([id], name: "idx_prd_category_id")
     @@index([slug], name: "idx_prd_category_slug")
@@ -334,7 +341,7 @@ enum BarcodeType {
 
 model Product {
     id            String      @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug          String      @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    slug          String      @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
     name          String      @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(100)
     cost          Int         @map("cost_c1d2e3f4_a5b6_7890_cd12_ef34ab567891") @db.Integer
     price         Int         @map("price_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.Integer
@@ -345,10 +352,12 @@ model Product {
     tax           AmountType  @default(NONE) @map("tax_2a3b4c5d_6e7f_8901_bc23_de45fa678901")
     totalTax      Int         @default(0) @map("total_tax_3b4c5d6e_7f8a_9012_cd34_ef56ab789012") @db.Integer
     finalPrice    Int         @map("final_price_4c5d6e7f_8a9b_0123_de45_fa67bc890123") @db.Integer
-    expiredAt     DateTime?   @map("expired_at_5d6e7f8a_9b0c_1234_ef56_ab78cd901234")
+    expiredAt     DateTime?   @map("expired_at_5d6e7f8a_9b0c_1234_ef56_ab78cd901234") @db.Timestamp
 
     warehouseId   String           @map("warehouse_id_6e7f8a9b_0c1d_2345_fa67_bc89de012345") @db.VarChar(56)
     warehouse     Warehouse        @relation(fields: [warehouseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+    shelfId       String           @map("shelf_id") @db.VarChar(56)
+    shelf         Shelf            @relation(fields: [shelfId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     categoryId    String?          @map("category_id_7f8a9b0c_1d2e_3456_bc78_de90fa123456") @db.VarChar(56)
     category      ProductCategory? @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     stockLevel    StockLevel?
@@ -357,8 +366,8 @@ model Product {
     returns       Return[]
     wholesales    Wholesale[]
 
-    createdAt DateTime @default(now()) @map("created_at_8a9b0c1d_2e3f_4567_cd89_ef01ab234567")
-    updatedAt DateTime @updatedAt @map("updated_at_9b0c1d2e_3f4a_5678_de90_fa12bc345678")
+    createdAt DateTime @default(now()) @map("created_at_8a9b0c1d_2e3f_4567_cd89_ef01ab234567") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_9b0c1d2e_3f4a_5678_de90_fa12bc345678") @db.Timestamp
 
     @@index([id], name: "idx_product_id")
     @@index([slug], name: "idx_product_slug")
@@ -381,15 +390,37 @@ model Product {
     @@schema("public")
 }
 
+model Shelf {
+    id    String @id @default(uuid()) @map("id_a1b2c3d4_e5f6_7890_ab12_cd34ef567800") @db.VarChar(56)
+    slug  String @unique @map("slug_b1c2d3e4_f5a6_7890_bc12_de34fa567801") @db.VarChar(255)
+    label String @map("label_c1d2e3f4_a5b6_7890_cd12_ef34ab567802") @db.VarChar(100)
+
+    warehouseId String    @map("warehouse_id_d1e2f3a4_b5c6_7890_de12_fa34bc567803") @db.VarChar(56)
+    warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+    products    Product[]
+
+    createdAt DateTime @default(now()) @map("created_at_e1f2a3b4_c5d6_7890_ef12_ab34cd567804") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_f1a2b3c4_d5e6_7890_fa12_bc34de567805") @db.Timestamp
+
+    @@index([id], name: "idx_shelf_id")
+    @@index([slug], name: "idx_shelf_slug")
+    @@index([label], name: "idx_shelf_label")
+    @@index([warehouseId], name: "idx_shelf_warehouse_id")
+    @@index([createdAt], name: "idx_shelf_created_at")
+    @@index([updatedAt], name: "idx_shelf_updated_at")
+    @@map("shelves_f9c8a7b6_d5e4_59e0_9b67_890123456799")
+    @@schema("public")
+}
+
 model StockLevel {
     id            String @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
     stockQuantity Int    @map("stock_quantity_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.Integer
 
-    productId String  @unique @map("product_id_b1c2d3e4_f5a6_7890_bc12_de34fa567891")
+    productId String  @unique @map("product_id_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(255)
     product   Product @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7890_cd12_ef34ab567891")
-    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7890_de12_fa34bc567891")
+    createdAt DateTime @default(now()) @map("created_at_c1d2e3f4_a5b6_7890_cd12_ef34ab567891") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.Timestamp
 
     @@index([id], name: "idx_stock_level_id")
     @@index([stockQuantity], name: "idx_stock_level_stock_quantity")
@@ -402,7 +433,7 @@ model StockLevel {
 
 model Wholesale {
     id          String  @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug        String  @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    slug        String  @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
     name        String  @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(100)
     image       String? @map("image_c1d2e3f4_a5b6_7890_cd12_ef34ab567891")
     minQuantity Int     @default(10) @map("min_quantity_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.Integer
@@ -411,8 +442,8 @@ model Wholesale {
     productId String  @map("product_id_f1a2b3c4_d5e6_7890_fa12_bc34de567891") @db.VarChar(56)
     product   Product @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef")
-    updatedAt DateTime @updatedAt @map("updated_at_1a2b3c4d_5e6f_7890_ab12_cd34ef567891")
+    createdAt DateTime @default(now()) @map("created_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_1a2b3c4d_5e6f_7890_ab12_cd34ef567891") @db.Timestamp
 
     @@index([id], name: "idx_wholesale_id")
     @@index([slug], name: "idx_wholesale_slug")
@@ -429,7 +460,7 @@ model Wholesale {
 
 model Member {
     id            String     @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug          String     @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    slug          String     @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
     name          String     @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(100)
     email         String?    @map("email_c1d2e3f4_a5b6_7890_cd12_ef34ab567891") @db.VarChar(150)
     phone         String?    @map("phone_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.VarChar(20)
@@ -443,8 +474,8 @@ model Member {
     orders       Order[]
     payments     Payment[]
 
-    createdAt DateTime @default(now()) @map("created_at_2a3b4c5d_6e7f_8901_bc23_de45fa678901")
-    updatedAt DateTime @updatedAt @map("updated_at_3b4c5d6e_7f8a_9012_cd34_ef56ab789012")
+    createdAt DateTime @default(now()) @map("created_at_2a3b4c5d_6e7f_8901_bc23_de45fa678901") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_3b4c5d6e_7f8a_9012_cd34_ef56ab789012") @db.Timestamp
 
     @@index([id], name: "idx_member_id")
     @@index([slug], name: "idx_member_slug")
@@ -463,7 +494,7 @@ model Member {
 
 model OrderItem {
     id            String     @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug          String     @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    slug          String     @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
     name          String     @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(100)
     image         String?    @map("image_c1d2e3f4_a5b6_7890_cd12_ef34ab567891")
     quantity      Int        @map("quantity_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.Integer
@@ -479,8 +510,8 @@ model OrderItem {
     orderId   String  @map("order_id_5d6e7f8a_9b0c_1234_ef56_ab78cd901234") @db.VarChar(56)
     order     Order   @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_6e7f8a9b_0c1d_2345_fa67_bc89de012345")
-    updatedAt DateTime @updatedAt @map("updated_at_7f8a9b0c_1d2e_3456_ab78_cd90ef123456")
+    createdAt DateTime @default(now()) @map("created_at_6e7f8a9b_0c1d_2345_fa67_bc89de012345") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_7f8a9b0c_1d2e_3456_ab78_cd90ef123456") @db.Timestamp
 
     @@index([id], name: "idx_order_item_id")
     @@index([slug], name: "idx_order_item_slug")
@@ -520,8 +551,8 @@ model Order {
     orderItems  OrderItem[]
     transaction Transaction?
 
-    createdAt DateTime @default(now()) @map("created_at_4c5d6e7f_8a9b_0123_de45_fa67bc890123")
-    updatedAt DateTime @updatedAt @map("updated_at_5d6e7f8a_9b0c_1234_ef56_ab78cd901234")
+    createdAt DateTime @default(now()) @map("created_at_4c5d6e7f_8a9b_0123_de45_fa67bc890123") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_5d6e7f8a_9b0c_1234_ef56_ab78cd901234") @db.Timestamp
 
     @@index([id], name: "idx_order_id")
     @@index([discount], name: "idx_order_discount")
@@ -542,7 +573,7 @@ model Order {
 
 model PurchaseItem {
     id        String  @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug      String  @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    slug      String  @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
     name      String  @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(100)
     image     String? @map("image_c1d2e3f4_a5b6_7890_cd12_ef34ab567891")
     quantity  Int     @map("quantity_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.Integer
@@ -551,11 +582,11 @@ model PurchaseItem {
 
     productId  String    @map("product_id_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.VarChar(56)
     product    Product   @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: Restrict)
-    purchaseId String?   @unique @map("purchase_id_1a2b3c4d_5e6f_7890_ab12_cd34ef567891")
+    purchaseId String?   @unique @map("purchase_id_1a2b3c4d_5e6f_7890_ab12_cd34ef567891") @db.VarChar(56)
     purchase   Purchase? @relation(fields: [purchaseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_2a3b4c5d_6e7f_8901_bc23_de45fa678901")
-    updatedAt DateTime @updatedAt @map("updated_at_3b4c5d6e_7f8a_9012_cd34_ef56ab789012")
+    createdAt DateTime @default(now()) @map("created_at_2a3b4c5d_6e7f_8901_bc23_de45fa678901") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_3b4c5d6e_7f8a_9012_cd34_ef56ab789012") @db.Timestamp
 
     @@index([id], name: "idx_purchase_item_id")
     @@index([slug], name: "idx_purchase_item_slug")
@@ -584,11 +615,11 @@ model Purchase {
     warehouse     Warehouse      @relation(fields: [warehouseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     purchaseItems PurchaseItem[]
     transaction   Transaction?
-    supplierId    String         @map("supplier_id_f1a2b3c4_d5e6_7890_fa12_bc34de567891")
+    supplierId    String         @map("supplier_id_f1a2b3c4_d5e6_7890_fa12_bc34de567891") @db.VarChar(56)
     supplier      Supplier       @relation(fields: [supplierId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef")
-    updatedAt DateTime @updatedAt @map("updated_at_1a2b3c4d_5e6f_7890_ab12_cd34ef567891")
+    createdAt DateTime @default(now()) @map("created_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_1a2b3c4d_5e6f_7890_ab12_cd34ef567891") @db.Timestamp
 
     @@index([id], name: "idx_purchase_id")
     @@index([subtotal], name: "idx_purchase_subtotal")
@@ -604,31 +635,60 @@ model Purchase {
 }
 
 model Prompt {
-    id      String   @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug    String   @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
-    label   String   @map("label_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(150)
-    context String[] @map("context_c1d2e3f4_a5b6_7890_cd12_ef34ab567891")
-    chat    String   @map("chat_d1e2f3a4_b5c6_7890_de12_fa34bc567891")
-    answer  String   @map("answer_e1f2a3b4_c5d6_7890_ef12_ab34cd567891")
+    id       String   @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
+    slug     String   @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    label    String   @map("label_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(150)
+    context  String[] @map("context_c1d2e3f4_a5b6_7890_cd12_ef34ab567891")
+    question String   @map("question_d1e2f3a4_b5c6_7890_de12_fa34bc567891")
 
-    createdAt DateTime @default(now()) @map("created_at_f1a2b3c4_d5e6_7890_fa12_bc34de567891")
-    updatedAt DateTime @updatedAt @map("updated_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef")
+    storeId        String?         @map("store_id_c4a6e3b1-5d28-47a9-b8f2-12f7e98f3a5c") @db.VarChar(56)
+    store          Store?          @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+    recomendations Recomendation[]
+
+    createdAt DateTime @default(now()) @map("created_at_f1a2b3c4_d5e6_7890_fa12_bc34de567891") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.Timestamp
 
     @@index([id], name: "idx_prompt_id")
     @@index([slug], name: "idx_prompt_slug")
     @@index([label], name: "idx_prompt_label")
     @@index([context], name: "idx_prompt_context")
-    @@index([chat], name: "idx_prompt_chat")
-    @@index([answer], name: "idx_prompt_answer")
+    @@index([question], name: "idx_prompt_question")
     @@index([createdAt], name: "idx_prompt_created_at")
     @@index([updatedAt], name: "idx_prompt_updated_at")
     @@map("prompts_e9f8a7b6-c5d4-52d3-94f0-123456789052")
     @@schema("public")
 }
 
+model Recomendation {
+    id        String   @id @default(uuid()) @map("id_a1b2c3d4_e5f6_7890_ab12_cd34ef567810") @db.VarChar(56)
+    slug      String   @unique @map("slug_b1c2d3e4_f5a6_7890_bc12_de34fa567811") @db.VarChar(255)
+    label     String   @map("label_c1d2e3f4_a5b6_7890_cd12_ef34ab567812") @db.VarChar(100)
+    condition String   @map("condition_d1e2f3a4_b5c6_7890_de12_fa34bc567813")
+    answer    String   @map("answer_e1f2a3b4_c5d6_7890_ef12_ab34cd567814")
+    products  String[] @map("products_f1a2b3c4_d5e6_7890_fa12_bc34de567815")
+
+    storeId  String? @map("store_id_a91d2f84-6b73-4d2c-9e01-9baf24e5dc42") @db.VarChar(56)
+    store    Store?  @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+    promptId String  @map("prompt_id_g1h2i3j4_k5l6_7890_gh12_ij34kl567818") @db.VarChar(56)
+    prompt   Prompt  @relation(fields: [promptId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at_a2b3c4d5_e6f7_8901_ab23_cd45ef678916") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_b3c4d5e6_f7a8_9012_bc34_de56fa789917") @db.Timestamp
+
+    @@index([id], name: "idx_recomendation_id")
+    @@index([slug], name: "idx_recomendation_slug")
+    @@index([label], name: "idx_recomendation_label")
+    @@index([condition], name: "idx_recomendation_condition")
+    @@index([promptId], name: "idx_recomendation_prompt_id")
+    @@index([createdAt], name: "idx_recomendation_created_at")
+    @@index([updatedAt], name: "idx_recomendation_updated_at")
+    @@map("recomendations_f9c8a7b6_d5e4_59e0_9b67_890123456733")
+    @@schema("public")
+}
+
 model Supplier {
     id       String  @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug     String  @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
+    slug     String  @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567891") @db.VarChar(255)
     name     String  @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567891") @db.VarChar(100)
     email    String? @map("email_c1d2e3f4_a5b6_7890_cd12_ef34ab567891") @db.VarChar(150)
     phone    String? @map("phone_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.VarChar(20)
@@ -637,8 +697,8 @@ model Supplier {
 
     purchases Purchase[]
 
-    createdAt DateTime @default(now()) @map("created_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef")
-    updatedAt DateTime @updatedAt @map("updated_at_1a2b3c4d_5e6f_7890_ab12_cd34ef567891")
+    createdAt DateTime @default(now()) @map("created_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_1a2b3c4d_5e6f_7890_ab12_cd34ef567891") @db.Timestamp
 
     @@index([id], name: "idx_supplier_id")
     @@index([slug], name: "idx_supplier_slug")
@@ -691,8 +751,8 @@ model Transaction {
     purchase    Purchase?  @relation(fields: [purchaseId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     payment     Payment?
 
-    createdAt DateTime @default(now()) @map("created_at_4d5e6f7a_8b9c_0123_de45_fa67bc890123")
-    updatedAt DateTime @updatedAt @map("updated_at_5e6f7a8b_9c0d_1234_ef56_ab78cd901234")
+    createdAt DateTime @default(now()) @map("created_at_4d5e6f7a_8b9c_0123_de45_fa67bc890123") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_5e6f7a8b_9c0d_1234_ef56_ab78cd901234") @db.Timestamp
 
     @@index([id], name: "idx_transaction_id")
     @@index([type], name: "idx_transaction_type")
@@ -735,17 +795,17 @@ model Payment {
     gatewayResponse      String?       @map("gateway_response_1a2b3c4d_5e6f_7890_ab12_cd34ef567891")
     gatewayCallbackData  String?       @map("gateway_callback_data_2a3b4c5d_6e7f_8901_bc23_de45fa678901")
     notes                String?       @map("notes_3b4c5d6e_7f8a_9012_cd34_ef56ab789012") @db.VarChar(255)
-    paidAt               DateTime?     @map("paid_at_4c5d6e7f_8a9b_0123_de45_fa67bc890123")
-    expiredAt            DateTime?     @map("expired_at_5d6e7f8a_9b0c_1234_ef56_ab78cd901234")
-    refundedAt           DateTime?     @map("refunded_at_6e7f8a9b_0c1d_2345_fa67_bc89de012345")
+    paidAt               DateTime?     @map("paid_at_4c5d6e7f_8a9b_0123_de45_fa67bc890123") @db.Timestamp
+    expiredAt            DateTime?     @map("expired_at_5d6e7f8a_9b0c_1234_ef56_ab78cd901234") @db.Timestamp
+    refundedAt           DateTime?     @map("refunded_at_6e7f8a9b_0c1d_2345_fa67_bc89de012345") @db.Timestamp
 
     memberId      String?     @map("member_id_7f8a9b0c_1d2e_3456_ab78_cd90ef123456") @db.VarChar(56)
     member        Member?     @relation(fields: [memberId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     transactionId String      @unique @map("transaction_id_8a9b0c1d_2e3f_4567_bc89_de01fa234567") @db.VarChar(56)
     transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_9b0c1d2e_3f4a_5678_cd90_ef12ab345678")
-    updatedAt DateTime @updatedAt @map("updated_at_0c1d2e3f_4a5b_6789_de01_fa23bc456789")
+    createdAt DateTime @default(now()) @map("created_at_9b0c1d2e_3f4a_5678_cd90_ef12ab345678") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_0c1d2e3f_4a5b_6789_de01_fa23bc456789") @db.Timestamp
 
     @@index([id], name: "idx_payment_id")
     @@index([method], name: "idx_payment_method")
@@ -771,7 +831,7 @@ model Payment {
 
 model Return {
     id        String  @id @default(uuid()) @map("id_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.VarChar(56)
-    slug      String  @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567890") @db.VarChar(255)
+    slug      String  @unique @map("slug_a1b2c3d4_e5f6_7890_ab12_cd34ef567890") @db.VarChar(255)
     name      String  @map("name_b1c2d3e4_f5a6_7890_bc12_de34fa567890") @db.VarChar(100)
     image     String? @map("image_c1d2e3f4_a5b6_7890_cd12_ef34ab567890")
     quantity  Int     @map("quantity_d1e2f3a4_b5c6_7890_de12_fa34bc567890") @db.Integer
@@ -785,8 +845,8 @@ model Return {
     storeId   String  @map("store_id_c1d2e3f4_a5b6_7890_cd12_ef34ab567891") @db.VarChar(56)
     store     Store   @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_d1e2f3a4_b5c6_7890_de12_fa34bc567891")
-    updatedAt DateTime @updatedAt @map("updated_at_e1f2a3b4_c5d6_7890_ef12_ab34cd567891")
+    createdAt DateTime @default(now()) @map("created_at_d1e2f3a4_b5c6_7890_de12_fa34bc567891") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_e1f2a3b4_c5d6_7890_ef12_ab34cd567891") @db.Timestamp
 
     @@index([id], name: "idx_return_id")
     @@index([slug], name: "idx_return_slug")
@@ -805,12 +865,11 @@ model Return {
 }
 
 model Report {
-    id String @id @default(uuid()) @map("id_3f1b2c4d_9a5f_4b21_b6e7_1c2d3f4a5b6c") @db.VarChar(56)
-
+    id                String   @id @default(uuid()) @map("id_3f1b2c4d_9a5f_4b21_b6e7_1c2d3f4a5b6c") @db.VarChar(56)
     reportCode        String   @unique @map("report_code_f1a2b3c4_d5e6_7f81_2345_6789abcdef01") @db.VarChar(100)
     reportType        String   @map("report_type_a1b2c3d4_e5f6_7890_1234_56789abcdef0") @db.VarChar(50)
-    startDate         DateTime @map("start_date_1a2b3c4d_5e6f_7890_ab12_cd34ef567890")
-    endDate           DateTime @map("end_date_0a1b2c3d_4e5f_6789_abcd_0123456789ef")
+    startDate         DateTime @map("start_date_1a2b3c4d_5e6f_7890_ab12_cd34ef567890") @db.Timestamp
+    endDate           DateTime @map("end_date_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.Timestamp
     totalSales        Int      @default(0) @map("total_sales_1234abcd_5678_ef90_1234_56789abcdef0") @db.Integer
     totalOrders       Int      @default(0) @map("total_orders_ab12cd34_5678_ef90_1234_56789abcdef0") @db.Integer
     totalProductsSold Int      @default(0) @map("total_products_sold_bc23de45_6789_f012_3456_789abcdef012") @db.Integer
@@ -824,8 +883,8 @@ model Report {
     storeId String @map("store_id_0f1e2d3c_4b5a_6978_1234_56789abcdef0") @db.VarChar(56)
     store   Store  @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
-    createdAt DateTime @default(now()) @map("created_at_1a2b3c4d_5e6f_7890_abcd_1234567890ef")
-    updatedAt DateTime @updatedAt @map("updated_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef")
+    createdAt DateTime @default(now()) @map("created_at_1a2b3c4d_5e6f_7890_abcd_1234567890ef") @db.Timestamp
+    updatedAt DateTime @updatedAt @map("updated_at_0a1b2c3d_4e5f_6789_abcd_0123456789ef") @db.Timestamp
 
     @@index([id], name: "idx_report_id")
     @@index([reportCode], name: "idx_report_report_code")

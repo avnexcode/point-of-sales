@@ -15,16 +15,8 @@ const config = {
       },
       {
         protocol: "https",
-        hostname: "fakestoreapi.com",
-      },
-      {
-        protocol: "https",
         hostname: "thpvradgzhfshaqgteqn.supabase.co",
         pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
       },
     ],
   },

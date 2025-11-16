@@ -13,12 +13,22 @@ export abstract class BaseService {
   }
 
   protected static async checkExistsOrThrow(
-    exists: boolean,
+    check: "NULL" | "EXISTS",
+    condition: boolean,
     code: TRPC_ERROR_CODE_KEY = "NOT_FOUND",
     customField?: string,
   ): Promise<void> {
-    if (!exists) {
-      this.throwError(code, customField);
+    switch (check) {
+      case "NULL":
+        if (!condition) {
+          this.throwError(code, customField);
+        }
+        break;
+      case "EXISTS":
+        if (condition) {
+          this.throwError(code, customField);
+        }
+        break;
     }
   }
 

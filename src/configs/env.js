@@ -20,6 +20,8 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
     NEXT_PUBLIC_OG_IMAGE_URL: z.string(),
+    NEXT_PUBLIC_STORE_IMAGE: z.string(),
+    NEXT_PUBLIC_WAREHOUSE_IMAGE: z.string(),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
@@ -35,6 +37,8 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_OG_IMAGE_URL: process.env.NEXT_PUBLIC_OG_IMAGE_URL,
+    NEXT_PUBLIC_STORE_IMAGE: process.env.NEXT_PUBLIC_STORE_IMAGE,
+    NEXT_PUBLIC_WAREHOUSE_IMAGE: process.env.NEXT_PUBLIC_WAREHOUSE_IMAGE,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

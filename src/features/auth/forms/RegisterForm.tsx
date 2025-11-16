@@ -24,10 +24,12 @@ export const RegisterForm = () => {
     <Card className="sm:bg-card w-full max-w-2xl rounded-none border-0 bg-transparent shadow-none sm:rounded-xl sm:border sm:shadow-sm">
       <CardHeader>
         <CardTitle>
-          <Heading size={"h3"}>{t("pages.auth.register.header.title")}</Heading>
+          <Heading size={"h3"}>
+            {t("pages.auth.forms.register.header.title")}
+          </Heading>
         </CardTitle>
         <CardDescription>
-          {t("pages.auth.register.header.description")}
+          {t("pages.auth.forms.register.header.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -44,19 +46,19 @@ export const RegisterForm = () => {
           {isRegisterPending ? (
             <>
               <Loader2 className="animate-spin" />
-              {t("pages.auth.register.footer.submitButtonLoading")} . . .
+              {t("pages.auth.forms.register.footer.submitButtonLoading")} . . .
             </>
           ) : (
-            t("pages.auth.register.footer.submitButton")
+            t("pages.auth.forms.register.footer.submitButton")
           )}
         </Button>
         <span className="text-muted-foreground text-sm">
-          {t("pages.auth.register.footer.caption")}{" "}
+          {t("pages.auth.forms.register.footer.caption")}{" "}
           <Link
             href="/login"
             className="font-medium text-blue-600 underline hover:underline"
           >
-            {t("pages.auth.register.footer.captionRedirect")}
+            {t("pages.auth.forms.register.footer.captionRedirect")}
           </Link>
         </span>
       </CardFooter>

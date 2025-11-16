@@ -18,6 +18,7 @@ export type SettingsResponse = Prisma.SettingsGetPayload<{
     theme: true;
     language: true;
     currency: true;
+    notification: true;
   };
 }>;
 

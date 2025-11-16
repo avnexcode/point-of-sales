@@ -77,10 +77,13 @@
     "auth": {
       "title": "autentikasi",
       "fields": {
+        "username": "nama pengguna",
         "email": "email",
         "password": "kata sandi",
         "currentPassword": "kata sandi saat ini",
-        "confirmPassword": "konfirmasi kata sandi"
+        "confirmPassword": "konfirmasi kata sandi",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
       }
     },
     "user": {
@@ -89,21 +92,306 @@
         "name": "nama",
         "username": "nama pengguna",
         "email": "email",
-        "phone": "nomor telepon",
+        "phone": "telepon",
         "avatar": "avatar",
         "image": "gambar",
         "providers": "penyedia",
-        "settings": "pengaturan"
+        "role": "peran",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
       }
     },
     "settings": {
       "title": "pengaturan",
-      "fields": {}
+      "fields": {
+        "theme": "tema",
+        "language": "bahasa",
+        "currency": "mata uang",
+        "notification": "notifikasi",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "permissions": {
+      "title": "izin",
+      "fields": {
+        "createStore": "buat toko",
+        "updateStore": "perbarui toko",
+        "deleteStore": "hapus toko",
+        "createWarehouse": "buat gudang",
+        "updateWarehouse": "perbarui gudang",
+        "deleteWarehouse": "hapus gudang",
+        "createCategory": "buat kategori",
+        "updateCategory": "perbarui kategori",
+        "deleteCategory": "hapus kategori",
+        "createProduct": "buat produk",
+        "updateProduct": "perbarui produk",
+        "deleteProduct": "hapus produk",
+        "deleteNotification": "hapus notifikasi",
+        "createReport": "buat laporan",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "store": {
+      "title": "toko",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "address": "alamat",
+        "image": "gambar",
+        "discount": "diskon",
+        "totalDiscount": "total diskon",
+        "tax": "pajak",
+        "totalTax": "total pajak",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "notification": {
+      "title": "notifikasi",
+      "fields": {
+        "slug": "slug",
+        "title": "judul",
+        "message": "pesan",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "warehouseu": {
+      "title": "gudang",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "address": "alamat",
+        "image": "gambar",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "productCategory": {
+      "title": "kategori produk",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "description": "deskripsi",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
     },
     "product": {
       "title": "produk",
       "fields": {
-        "name": "nama"
+        "slug": "slug",
+        "name": "nama",
+        "cost": "biaya",
+        "price": "harga",
+        "barcodeType": "jenis barcode",
+        "barcode": "barcode",
+        "discount": "diskon",
+        "totalDiscount": "total diskon",
+        "tax": "pajak",
+        "totalTax": "total pajak",
+        "finalPrice": "harga akhir",
+        "expiredAt": "kedaluwarsa pada",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "shelf": {
+      "title": "rak",
+      "fields": {
+        "slug": "slug",
+        "label": "label",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "stockLevel": {
+      "title": "tingkat stok",
+      "fields": {
+        "stockQuantity": "jumlah stok",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "wholesale": {
+      "title": "grosir",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "image": "gambar",
+        "minQuantity": "jumlah minimum",
+        "price": "harga",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "member": {
+      "title": "anggota",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "email": "email",
+        "phone": "telepon",
+        "address": "alamat",
+        "discount": "diskon",
+        "totalDiscount": "total diskon",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "orderItem": {
+      "title": "item pesanan",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "image": "gambar",
+        "quantity": "jumlah",
+        "unitPrice": "harga satuan",
+        "discount": "diskon",
+        "totalDiscount": "total diskon",
+        "tax": "pajak",
+        "totalTax": "total pajak",
+        "subtotal": "subtotal",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "order": {
+      "title": "pesanan",
+      "fields": {
+        "discount": "diskon",
+        "totalDiscount": "total diskon",
+        "tax": "pajak",
+        "totalTax": "total pajak",
+        "subtotal": "subtotal",
+        "total": "total",
+        "notes": "catatan",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "purchaseItem": {
+      "title": "item pembelian",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "image": "gambar",
+        "quantity": "jumlah",
+        "unitPrice": "harga satuan",
+        "subtotal": "subtotal",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "purchase": {
+      "title": "pembelian",
+      "fields": {
+        "subtotal": "subtotal",
+        "total": "total",
+        "notes": "catatan",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "prompt": {
+      "title": "prompt",
+      "fields": {
+        "slug": "slug",
+        "label": "label",
+        "context": "konteks",
+        "question": "pertanyaan",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "recomendation": {
+      "title": "rekomendasi",
+      "fields": {
+        "slug": "slug",
+        "label": "label",
+        "condition": "kondisi",
+        "answer": "jawaban",
+        "products": "produk",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "supplier": {
+      "title": "pemasok",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "email": "email",
+        "phone": "telepon",
+        "address": "alamat",
+        "isActive": "aktif",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "transaction": {
+      "title": "transaksi",
+      "fields": {
+        "type": "jenis",
+        "method": "metode",
+        "amount": "jumlah",
+        "paidAmount": "jumlah dibayar",
+        "changeAmount": "jumlah kembalian",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "payment": {
+      "title": "pembayaran",
+      "fields": {
+        "method": "metode",
+        "status": "status",
+        "amount": "jumlah",
+        "gatewayProvider": "penyedia gateway",
+        "gatewayTransactionId": "ID transaksi gateway",
+        "gatewayOrderId": "ID pesanan gateway",
+        "gatewayPaymentUrl": "URL pembayaran gateway",
+        "gatewayResponse": "respon gateway",
+        "gatewayCallbackData": "data callback gateway",
+        "notes": "catatan",
+        "paidAt": "dibayar pada",
+        "expiredAt": "kedaluwarsa pada",
+        "refundedAt": "dikembalikan pada",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "return": {
+      "title": "retur",
+      "fields": {
+        "slug": "slug",
+        "name": "nama",
+        "image": "gambar",
+        "quantity": "jumlah",
+        "unitPrice": "harga satuan",
+        "subtotal": "subtotal",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
+      }
+    },
+    "report": {
+      "title": "laporan",
+      "fields": {
+        "reportCode": "kode laporan",
+        "reportType": "jenis laporan",
+        "startDate": "tanggal mulai",
+        "endDate": "tanggal selesai",
+        "totalSales": "total penjualan",
+        "totalOrders": "total pesanan",
+        "totalProductsSold": "total produk terjual",
+        "totalIncome": "total pendapatan",
+        "totalExpense": "total pengeluaran",
+        "totalProfit": "total keuntungan",
+        "notes": "catatan",
+        "createdAt": "dibuat pada",
+        "updatedAt": "diperbarui pada"
       }
     }
   },
@@ -207,6 +495,35 @@
           "captionRedirect": "Daftar di sini!"
         }
       }
+    },
+    "store": {
+      "title": "Toko",
+      "forms": {
+        "create": {
+          "header": {
+            "title": "Tambah Toko",
+            "description": "Isi detail yang diperlukan untuk membuat toko baru."
+          },
+          "footer": {
+            "cancelButton": "Batal",
+            "submitButton": "Tambah",
+            "submitButtonLoading": "Menambahkan"
+          }
+        },
+        "update": {
+          "header": {
+            "title": "Perbarui Toko",
+            "description": "Ubah detail toko sesuai kebutuhan."
+          },
+          "footer": {
+            "cancelButton": "Batal",
+            "submitButton": "Perbarui",
+            "submitButtonLoading": "Memperbarui"
+          }
+        },
+        "uploadingImage": "Mengunggah gambar"
+      },
+      "detail": {}
     }
   },
   "components": {
@@ -233,6 +550,26 @@
         "prompt": "prompt",
         "supplier": "pemasok"
       }
+    },
+    "store": {
+      "storePageHeader": {
+        "caption": "Detail informasi toko",
+        "editButton": "Edit"
+      },
+      "addStoreCard": {
+        "title": "Tambah Toko Baru",
+        "caption": "Klik untuk menambahkan toko baru ke daftar Anda"
+      },
+      "storeCard": {
+        "detailButton": "Lihat Toko"
+      },
+      "deleteStoreDialog": {
+        "title": "Apakah Anda yakin?",
+        "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus toko Anda secara permanen dan menghilangkan seluruh data dari server kami.",
+        "cancelButton": "Batal",
+        "deleteButton": "Hapus",
+        "deleteButtonLoading": "Menghapus"
+      }
     }
   },
   "forms": {
@@ -243,7 +580,12 @@
   "successes": {
     "message": {
       "register": "Pendaftaran berhasil. Silakan periksa email Anda untuk mengonfirmasi akun Anda",
-      "login": "Anda berhasil masuk"
+      "login": "Anda berhasil masuk",
+      "save": "{{field}} berhasil disimpan",
+      "upload": "{{field}} berhasil diunggah",
+      "delete": "{{field}} berhasil dihapus",
+      "create": "{{field}} berhasil dibuat",
+      "update": "{{field}} berhasil diperbarui"
     }
   },
   "errors": {

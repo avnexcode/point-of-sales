@@ -6,11 +6,12 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 type DashboardHeaderProps = {
   title: string;
 };
+
 export const DashboardHeader = ({ title }: DashboardHeaderProps) => {
   return (
     <header className="space-y-3 py-5">
       <div className="flex w-full items-center gap-x-2">
-        <SidebarTrigger className="md:hidden" />
+        <SidebarTrigger size={"icon-lg"} />
         <Heading size={"h3"}>{title}</Heading>
       </div>
       <Separator />

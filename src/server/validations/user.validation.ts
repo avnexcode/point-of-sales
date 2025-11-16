@@ -2,7 +2,7 @@ import { LoginProvider, UserRole } from "@prisma/client";
 import z from "zod";
 import { emailValidation } from "./auth.validation";
 
-export const loginProvider = Object.values(LoginProvider) as [
+export const loginProviders = Object.values(LoginProvider) as [
   LoginProvider,
   ...LoginProvider[],
 ];
@@ -13,7 +13,7 @@ export const createUserRequest = z.object({
   name: z.string().min(1).max(50).trim().toLowerCase(),
   email: emailValidation,
   avatarUrl: z.string().url().optional(),
-  provider: z.enum(loginProvider).default("EMAIL"),
+  provider: z.enum(loginProviders).default("EMAIL"),
   role: z.enum(role).default("ADMIN"),
 });
 
@@ -32,5 +32,5 @@ export const updateUserRequest = z.object({
     .nullable(),
   avatar: z.string().url().optional(),
   image: z.string().url().optional(),
-  provider: z.enum(loginProvider).optional(),
+  provider: z.enum(loginProviders).optional(),
 });

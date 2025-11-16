@@ -7,7 +7,6 @@ export const queryParams = z
     search: z.string().trim().optional(),
     sort: z.string().optional().default("createdAt"),
     order: z.enum(["asc", "desc"]).default("desc"),
-    visibility: z.enum(["public", "private", "default"]).optional(),
   })
   .optional()
   .default({
@@ -16,5 +15,4 @@ export const queryParams = z
     search: "",
     sort: "createdAt",
     order: "desc",
-    visibility: "default",
   });

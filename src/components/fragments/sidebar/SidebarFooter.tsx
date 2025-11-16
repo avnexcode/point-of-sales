@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useLogout } from "@/features/auth/hooks";
 import { useAuth } from "@/hooks";
+import Link from "next/link";
 
 export const SidebarFooter = () => {
   const { handleLogout } = useLogout();
@@ -42,9 +43,11 @@ export const SidebarFooter = () => {
                 <Icon name={"User"} className="mr-2" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Icon name={"Settings"} className="mr-2" />
-                <span>Settings</span>
+              <DropdownMenuItem asChild>
+                <Link href={"/settings"}>
+                  <Icon name={"Settings"} className="mr-2" />
+                  <span>Settings</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>
                 <Icon name={"LogOut"} className="mr-2" />

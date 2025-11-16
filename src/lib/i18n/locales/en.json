@@ -91,7 +91,9 @@
         "email": "email",
         "password": "password",
         "currentPassword": "current password",
-        "confirmPassword": "confirm password"
+        "confirmPassword": "confirm password",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
       }
     },
     "user": {
@@ -104,17 +106,302 @@
         "avatar": "avatar",
         "image": "image",
         "providers": "providers",
-        "settings": "settings"
+        "role": "role",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
       }
     },
     "settings": {
       "title": "settings",
-      "fields": {}
+      "fields": {
+        "theme": "theme",
+        "language": "language",
+        "currency": "currency",
+        "notification": "notification",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "permissions": {
+      "title": "permissions",
+      "fields": {
+        "createStore": "create store",
+        "updateStore": "updateStore",
+        "deleteStore": "deleteStore",
+        "createWarehouse": "create warehouse",
+        "updateWarehouse": "update warehouse",
+        "deleteWarehouse": "delete warehouse",
+        "createCategory": "create category",
+        "updateCategory": "update category",
+        "deleteCategory": "delete category",
+        "createProduct": "create product",
+        "updateProduct": "update product",
+        "deleteProduct": "delete product",
+        "deleteNotification": "delete notification",
+        "createReport": "create report",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "store": {
+      "title": "store",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "address": "address",
+        "image": "image",
+        "discount": "discount",
+        "totalDiscount": "total discount",
+        "tax": "tax",
+        "totalTax": "total tax",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "notification": {
+      "title": "notification",
+      "fields": {
+        "slug": "slug",
+        "title": "title",
+        "message": "message",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "warehouseu": {
+      "title": "warehouseu",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "address": "address",
+        "image": "image",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "productCategory": {
+      "title": "product category",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "description": "description",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
     },
     "product": {
       "title": "product",
       "fields": {
-        "name": "name"
+        "slug": "slug",
+        "name": "name",
+        "cost": "cost",
+        "price": "price",
+        "barcodeType": "barcode type",
+        "barcode": "barcode",
+        "discount": "discount",
+        "totalDiscount": "total discount",
+        "tax": "tax",
+        "totalTax": "total tax",
+        "finalPrice": "final price",
+        "expiredAt": "expired at",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "shelf": {
+      "title": "shelf",
+      "fields": {
+        "slug": "slug",
+        "label": "label",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "stockLevel": {
+      "title": "stockLevel",
+      "fields": {
+        "stockQuantity": "stock quantity",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "wholesale": {
+      "title": "wholesale",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "image": "image",
+        "minQuantity": "min quantity",
+        "price": "price",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "member": {
+      "title": "member",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "email": "email",
+        "phone": "phone",
+        "address": "address",
+        "discount": "discount",
+        "totalDiscount": "total discount",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "orderItem": {
+      "title": "order item",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "image": "image",
+        "quantity": "quantity",
+        "unitPrice": "unit price",
+        "discount": "discount",
+        "totalDiscount": "total discount",
+        "tax": "tax",
+        "totalTax": "totalTax",
+        "subtotal": "subtotal",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "order": {
+      "title": "order",
+      "fields": {
+        "discount": "discount",
+        "totalDiscount": "total discount",
+        "tax": "tax",
+        "totalTax": "totalTax",
+        "subtotal": "subtotal",
+        "total": "total",
+        "notes": "notes",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "purchaseItem": {
+      "title": "purchase item",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "image": "image",
+        "quantity": "quantity",
+        "unitPrice": "unit price",
+        "subtotal": "subtotal",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "purchase": {
+      "title": "purchase",
+      "fields": {
+        "subtotal": "subtotal",
+        "total": "total",
+        "notes": "notes",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "prompt": {
+      "title": "prompt",
+      "fields": {
+        "slug": "slug",
+        "label": "label",
+        "context": "context",
+        "question": "question",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "recomendation": {
+      "title": "recomendation",
+      "fields": {
+        "slug": "slug",
+        "label": "label",
+        "condition": "condition",
+        "answer": "answer",
+        "products": "products",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "supplier": {
+      "title": "supplier",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "email": "email",
+        "phone": "phone",
+        "address": "address",
+        "isActive": "is active",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "transaction": {
+      "title": "transaction",
+      "fields": {
+        "type": "type",
+        "method": "method",
+        "amount": "amount",
+        "paidAmount": "paid amount",
+        "changeAmount": "change amount",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "payment": {
+      "title": "payment",
+      "fields": {
+        "method": "method",
+        "status": "status",
+        "amount": "amount",
+        "gatewayProvider": "gateway provider",
+        "gatewayTransactionId": "gateway transaction id",
+        "gatewayOrderId": "gateway order id",
+        "gatewayPaymentUrl": "gateway payment url",
+        "gatewayResponse": "gateway response",
+        "gatewayCallbackData": "gateway callback data",
+        "notes": "notes",
+        "paidAt": "paid at",
+        "expiredAt": "expired at",
+        "refundedAt": "refunded at",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "return": {
+      "title": "return",
+      "fields": {
+        "slug": "slug",
+        "name": "name",
+        "image": "image",
+        "quantity": "quantity",
+        "unitPrice": "unit price",
+        "subtotal": "subtotal",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
+      }
+    },
+    "report": {
+      "title": "report",
+      "fields": {
+        "reportCode": "report code",
+        "reportType": "report type",
+        "startDate": "start date",
+        "endDate": "end date",
+        "totalSales": "total sales",
+        "totalOrders": "total orders",
+        "totalProductsSold": "total products sold",
+        "totalIncome": "total income",
+        "totalExpense": "total expense",
+        "totalProfit": "total profit",
+        "notes": "notes",
+        "createdAt": "created at",
+        "updatedAt": "updated at"
       }
     }
   },
@@ -194,30 +481,61 @@
   },
   "pages": {
     "auth": {
-      "register": {
-        "header": {
-          "title": "Register",
-          "description": "Create an account to get started."
+      "forms": {
+        "register": {
+          "header": {
+            "title": "Register",
+            "description": "Create an account to get started."
+          },
+          "footer": {
+            "submitButton": "Register",
+            "submitButtonLoading": "Registering",
+            "caption": "Already have an account?",
+            "captionRedirect": "Sign in here!"
+          }
         },
-        "footer": {
-          "submitButton": "Register",
-          "submitButtonLoading": "Registering",
-          "caption": "Already have an account?",
-          "captionRedirect": "Sign in here!"
-        }
-      },
-      "login": {
-        "header": {
-          "title": "Login",
-          "description": "Welcome back! Please sign in to continue."
-        },
-        "footer": {
-          "submitButton": "Login",
-          "submitButtonLoading": "Loging in",
-          "caption": "Don't have an account?",
-          "captionRedirect": "Sign up here!"
+        "login": {
+          "header": {
+            "title": "Login",
+            "description": "Welcome back! Please sign in to continue."
+          },
+          "footer": {
+            "submitButton": "Login",
+            "submitButtonLoading": "Loging in",
+            "caption": "Don't have an account?",
+            "captionRedirect": "Sign up here!"
+          }
         }
       }
+    },
+    "store": {
+      "title": "Store",
+      "forms": {
+        "create": {
+          "header": {
+            "title": "Create Store",
+            "description": "Fill in the details to create a new store."
+          },
+          "footer": {
+            "cancelButton": "Cancel",
+            "submitButton": "Create",
+            "submitButtonLoading": "Creating"
+          }
+        },
+        "update": {
+          "header": {
+            "title": "Update Store",
+            "description": "Modify the store details as needed."
+          },
+          "footer": {
+            "cancelButton": "Cancel",
+            "submitButton": "Update",
+            "submitButtonLoading": "Updating"
+          }
+        },
+        "uploadingImage": "Uploading image"
+      },
+      "detail": {}
     }
   },
   "components": {
@@ -244,18 +562,53 @@
         "prompt": "prompt",
         "supplier": "supplier"
       }
+    },
+    "store": {
+      "storePageHeader": {
+        "caption": "Detail store information",
+        "editButton": "Edit"
+      },
+      "addStoreCard": {
+        "title": "Add New Store",
+        "caption": "Click to add a new store to your list"
+      },
+      "storeCard": {
+        "detailButton": "View Store"
+      },
+      "deleteStoreDialog": {
+        "title": "Are you absolutely sure?",
+        "description": "This action cannot be undone. This will permanently delete your store and remove your data from our servers.",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete",
+        "deleteButtonLoading": "Deleting"
+      }
     }
   },
   "tables": {},
   "forms": {
     "placeholders": {
-      "input": "Input {{field}} here"
+      "input": "Input {{field}} here",
+      "select": "Select {{field}}",
+      "file": "Upload {{field}}"
+    },
+    "actions": {
+      "chooseFile": "Choose File",
+      "changeFile": "Change File",
+      "removeFile": "Remove File",
+      "upload": "Upload",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   },
   "successes": {
     "message": {
       "register": "Registration successful. Please check your email to confirm your account",
-      "login": "You have logged in successfully"
+      "login": "You have logged in successfully",
+      "save": "{{field}} has been saved successfully",
+      "upload": "{{field}} has been uploaded successfully",
+      "delete": "{{field}} has been deleted successfully",
+      "create": "{{field}} has been created successfully",
+      "update": "{{field}} has been updated successfully"
     }
   },
   "errors": {
@@ -380,7 +733,9 @@
   "common": {
     "loading": "Loading...",
     "error": "Something went wrong",
-    "retry": "Try again"
+    "retry": "Try again",
+    "showLess": "Show Less",
+    "showMore": "Show More"
   },
   "home": {
     "title": "Hello {{highlight}} App",

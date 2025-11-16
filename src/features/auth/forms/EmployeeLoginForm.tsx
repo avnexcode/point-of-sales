@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Loader2 } from "lucide-react";
-import Link from "next/link";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLoginEmployee } from "../hooks";
@@ -23,10 +22,12 @@ export const EmployeeLoginForm = () => {
     <Card className="sm:bg-card w-full rounded-none border-0 bg-transparent shadow-none sm:rounded-xl sm:border sm:shadow-sm">
       <CardHeader>
         <CardTitle>
-          <Heading size={"h3"}>{t("pages.auth.login.header.title")}</Heading>
+          <Heading size={"h3"}>
+            {t("pages.auth.forms.login.header.title")}
+          </Heading>
         </CardTitle>
         <CardDescription>
-          {t("pages.auth.login.header.description")}
+          {t("pages.auth.forms.login.header.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -46,10 +47,10 @@ export const EmployeeLoginForm = () => {
           {isLoginPending ? (
             <>
               <Loader2 className="animate-spin" />
-              {t("pages.auth.login.footer.submitButtonLoading")} . . .
+              {t("pages.auth.forms.login.footer.submitButtonLoading")} . . .
             </>
           ) : (
-            t("pages.auth.login.footer.submitButton")
+            t("pages.auth.forms.login.footer.submitButton")
           )}
         </Button>
       </CardFooter>
