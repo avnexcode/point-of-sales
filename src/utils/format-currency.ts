@@ -126,6 +126,7 @@ export const formatCurrency = (
   amount: number,
   currency: CurrencyCode = "USD",
   showSymbol = true,
+  digitsFraction = true,
 ): string => {
   if (amount === null || amount === undefined || isNaN(amount)) return "";
 
@@ -135,8 +136,8 @@ export const formatCurrency = (
   const formatter = new Intl.NumberFormat(locale, {
     style: showSymbol ? "currency" : "decimal",
     currency: currency,
-    minimumFractionDigits: decimalPlaces,
-    maximumFractionDigits: decimalPlaces,
+    minimumFractionDigits: digitsFraction ? decimalPlaces : 0,
+    maximumFractionDigits: digitsFraction ? decimalPlaces : 0,
   });
 
   return formatter.format(amount);

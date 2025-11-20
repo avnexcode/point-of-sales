@@ -8,10 +8,10 @@ import type {
 export class UserRepository {
   static findUniqueId = async (
     db: DBClient,
-    id: string,
+    userId: string,
   ): Promise<UserResponse | null> => {
     const user = await db.user.findUnique({
-      where: { id },
+      where: { id: userId },
       select: {
         id: true,
         name: true,
@@ -35,6 +35,7 @@ export class UserRepository {
     email: string,
   ): Promise<number> => {
     const usersCount = await db.user.count({ where: { email } });
+
     return usersCount;
   };
 

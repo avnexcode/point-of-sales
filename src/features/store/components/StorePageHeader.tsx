@@ -5,6 +5,7 @@ import { Store } from "lucide-react";
 import { useRouter } from "next/router";
 import { DeleteStoreDialog } from "./DeleteStoreDialog";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 type StorePageHeaderProps = {
   title: string;
@@ -60,13 +61,20 @@ export const StorePageHeader = ({
 
 type StorePageHeaderSkeletonProps = {
   withAction?: boolean;
+  className?: string;
 };
 
 export const StorePageHeaderSkeleton = ({
   withAction = false,
+  className,
 }: StorePageHeaderSkeletonProps) => {
   return (
-    <div className="flex flex-col items-start justify-between gap-y-2 border-b pb-6 lg:flex-row lg:items-center">
+    <div
+      className={cn(
+        "flex flex-col items-start justify-between gap-y-2 border-b pb-6 lg:flex-row lg:items-center",
+        className,
+      )}
+    >
       <div className="flex items-center gap-3">
         {/* Icon Container Skeleton */}
         <Skeleton className="h-12 w-12 rounded-lg" />

@@ -5,6 +5,8 @@ import { updateSettingsRequest } from "@/server/validations";
 import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
+const idValidation = z.string().min(1).uuid();
+
 export const settingsRouter = createTRPCRouter({
   getByUser: protectedProcedure.query(
     async ({ ctx }): Promise<SettingsResponse> => {
@@ -19,12 +21,7 @@ export const settingsRouter = createTRPCRouter({
   ),
 
   update: protectedProcedure
-    .input(
-      z.object({
-        id: z.string().min(1).uuid(),
-        request: updateSettingsRequest,
-      }),
-    )
+    .input(z.object({ id: idValidation, request: updateSettingsRequest }))
     .mutation(async ({ ctx, input }): Promise<UpdateSettingsResponse> => {
       const { db, auth } = ctx;
       const { id, request } = input;

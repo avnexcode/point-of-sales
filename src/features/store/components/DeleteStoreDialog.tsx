@@ -35,9 +35,16 @@ export const DeleteStoreDialog = ({
         <Button
           variant={"destructive"}
           className={cn("w-full", className)}
-          disabled={disabled}
+          disabled={disabled || isDeleteStorePending}
         >
-          {t("components.store.deleteStoreDialog.deleteButton")}
+          {isDeleteStorePending ? (
+            <>
+              <Loader2 className="animate-spin" />
+              {t("components.store.deleteStoreDialog.deleteButtonLoading")}
+            </>
+          ) : (
+            t("components.store.deleteStoreDialog.deleteButton")
+          )}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

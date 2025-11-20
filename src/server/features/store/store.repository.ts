@@ -20,8 +20,15 @@ export class StoreRepository {
 
     const skip = (page - 1) * limit;
 
+    const orQuery = ["name", "slug", "address"].map((field) => ({
+      [field]: { contains: search, mode: "insensitive" },
+    }));
+
     const userStores = await db.userStore.findMany({
-      where: { userId },
+      where: {
+        userId,
+        ...(search && { store: { OR: orQuery } }),
+      },
       select: {
         store: {
           select: {
@@ -85,10 +92,14 @@ export class StoreRepository {
     userId: string,
     search?: string,
   ): Promise<number> => {
+    const orQuery = ["name", "slug", "address"].map((field) => ({
+      [field]: { contains: search, mode: "insensitive" },
+    }));
+
     const userStoresCount = await db.userStore.count({
       where: {
         userId,
-        ...(search && { name: search }),
+        ...(search && { store: { OR: orQuery } }),
       },
     });
 
@@ -147,11 +158,12 @@ export class StoreRepository {
   static update = async (
     db: DBClient,
     storeId: string,
+    slug: string,
     request: UpdateStoreRequest,
   ): Promise<UpdateStoreResponse> => {
     const store = await db.store.update({
       where: { id: storeId },
-      data: { ...request },
+      data: { ...request, slug },
       select: {
         id: true,
         slug: true,

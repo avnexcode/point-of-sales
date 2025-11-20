@@ -26,7 +26,7 @@ export const StorePage = () => {
     <PageContainer title={t("pages.store.title")}>
       <SectionContainer padded>
         <DashboardLayout title={t("pages.store.title")} className="space-y-10">
-          <main className="flex flex-col flex-wrap items-stretch gap-5 lg:flex-row">
+          <main className="flex flex-col flex-wrap items-stretch gap-10 lg:flex-row">
             {isStoresLoading &&
               [...new Array<undefined>(2)].map((_, i) => (
                 <StoreCardSkeleton key={i} />

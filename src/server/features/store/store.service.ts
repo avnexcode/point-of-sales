@@ -13,7 +13,7 @@ import type {
 import { FileService } from "@/server/services";
 import { generateSlug } from "@/utils";
 import { BaseService } from "../common";
-import { UserStoreRepository, UserStoreService } from "../user-store";
+import { UserStoreService } from "../user-store";
 import { StoreRepository } from "./store.repository";
 
 export class StoreService extends BaseService {
@@ -54,7 +54,7 @@ export class StoreService extends BaseService {
   ): Promise<StoreResponse> => {
     const store = await StoreRepository.findUniqueId(db, userId, storeId);
 
-    return this.checkNotNullOrThrow(store, "NOT_FOUND", this.baseModel);
+    return this.checkNotNull(store, this.baseModel);
   };
 
   static create = async (
@@ -69,14 +69,11 @@ export class StoreService extends BaseService {
       request.name,
     );
 
-    await this.checkExistsOrThrow(
-      "EXISTS",
-      isStoreByNameExists > 0,
-      "CONFLICT",
+    await this.checkExists(
+      isStoreByNameExists !== 0,
       this.baseModel,
+      "CONFLICT",
     );
-
-    // let imageUrl = "";
 
     const slug = generateSlug({
       text: request.name,
@@ -84,29 +81,13 @@ export class StoreService extends BaseService {
       uuid: storeId,
     });
 
-    // const fileName = `store-${slug}.jpeg`;
+    const store = await StoreRepository.insert(db, storeId, slug, {
+      ...request,
+    });
 
-    try {
-      // imageUrl = await FileService.uploadImage(
-      //   SUPABASE_BUCKET.Store,
-      //   fileName,
-      //   request.image,
-      // );
+    await UserStoreService.create(db, { userId, storeId });
 
-      const store = await StoreRepository.insert(db, storeId, slug, {
-        ...request,
-      });
-
-      await UserStoreService.create(db, { userId, storeId });
-
-      return store;
-    } catch (error) {
-      // if (imageUrl) {
-      //   await FileService.deleteImageByUrl(SUPABASE_BUCKET.Store, imageUrl);
-      // }
-
-      throw error;
-    }
+    return store;
   };
 
   static update = async (
@@ -123,14 +104,23 @@ export class StoreService extends BaseService {
       request.name ?? "",
     );
 
-    await this.checkExistsOrThrow(
-      "EXISTS",
-      isStoreByNameExists > 0 && request.name !== existingStore.name,
-      "CONFLICT",
+    await this.checkExists(
+      isStoreByNameExists !== 0 && request.name !== existingStore.name,
       this.baseModel,
+      "CONFLICT",
     );
 
-    const store = await StoreRepository.update(db, storeId, request);
+    let slug = existingStore.slug;
+
+    if (existingStore.name !== request.name) {
+      slug = generateSlug({
+        text: request.name,
+        withId: true,
+        uuid: storeId,
+      });
+    }
+
+    const store = await StoreRepository.update(db, storeId, slug, request);
 
     return store;
   };
@@ -146,12 +136,7 @@ export class StoreService extends BaseService {
       storeId,
     );
 
-    await this.checkExistsOrThrow(
-      "NULL",
-      isStoreExists > 0,
-      "NOT_FOUND",
-      this.baseModel,
-    );
+    await this.checkExists(isStoreExists === 0, this.baseModel);
 
     try {
       const userStore = await UserStoreService.getByUserAndStore(
@@ -160,7 +145,7 @@ export class StoreService extends BaseService {
         storeId,
       );
 
-      await UserStoreRepository.destroy(db, userId, storeId, {
+      await UserStoreService.delete(db, userId, storeId, {
         id: userStore.id,
       });
 

@@ -574,7 +574,17 @@
   },
   "forms": {
     "placeholders": {
-      "input": "Masukkan {{field}} di sini"
+      "input": "Masukkan {{field}} di sini",
+      "select": "Pilih {{field}}",
+      "file": "Unggah {{field}}"
+    },
+    "actions": {
+      "chooseFile": "Pilih Berkas",
+      "changeFile": "Ganti Berkas",
+      "removeFile": "Hapus Berkas",
+      "upload": "Unggah",
+      "save": "Simpan",
+      "cancel": "Batal"
     }
   },
   "successes": {
@@ -595,6 +605,11 @@
       "email": {
         "conflict": "Alamat email ini sudah terdaftar"
       },
+      "save": "Gagal menyimpan {{field}}",
+      "upload": "Gagal mengunggah {{field}}",
+      "delete": "Gagal menghapus {{field}}",
+      "create": "Gagal membuat {{field}}",
+      "update": "Gagal memperbarui {{field}}",
       "trpc": {
         "badRequest": "permintaan tidak valid untuk {{field}}",
         "parseError": "tidak dapat memproses data permintaan untuk {{field}}",

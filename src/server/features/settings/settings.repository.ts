@@ -31,10 +31,10 @@ export class SettingsRepository {
   static findUniqueId = async (
     db: DBClient,
     userId: string,
-    id: string,
+    settingsId: string,
   ): Promise<SettingsResponse | null> => {
     const settings = await db.settings.findUnique({
-      where: { userId, id },
+      where: { userId, id: settingsId },
       select: {
         id: true,
         theme: true,
@@ -50,10 +50,10 @@ export class SettingsRepository {
   static countUniqueId = async (
     db: DBClient,
     userId: string,
-    id: string,
+    settingsId: string,
   ): Promise<number> => {
     const settingsCount = await db.settings.count({
-      where: { userId, id },
+      where: { userId, id: settingsId },
     });
 
     return settingsCount;
@@ -85,11 +85,11 @@ export class SettingsRepository {
   static update = async (
     db: DBClient,
     userId: string,
-    id: string,
+    settingsId: string,
     request: UpdateSettingsRequest,
   ): Promise<UpdateSettingsResponse> => {
     const settings = await db.settings.update({
-      where: { userId, id },
+      where: { userId, id: settingsId },
       data: { ...request },
       select: {
         id: true,

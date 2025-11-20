@@ -42,7 +42,14 @@ export const useCreateStore = () => {
         );
       },
       onError: (error) => {
-        toast.success(error.message || "Success create store");
+        toast.success(
+          error.message ||
+            capitalizeSentence(
+              t("errors.messages.create", {
+                field: t("models.store.title"),
+              }),
+            ),
+        );
       },
     });
 
@@ -55,7 +62,6 @@ export const useCreateStore = () => {
         setIsUploadingImage(true);
 
         const fileName = `${storeId}.jpeg`;
-        console.log({ storeId });
 
         imageUrl = await uploadImage(
           SUPABASE_BUCKET.Store,
@@ -65,6 +71,7 @@ export const useCreateStore = () => {
 
         setIsUploadingImage(false);
       }
+
       await createStore({
         id: storeId,
         request: {
@@ -74,13 +81,12 @@ export const useCreateStore = () => {
           totalTax: Number(values.totalTax),
         },
       });
-    } catch (error) {
+    } catch {
       setIsUploadingImage(false);
 
       if (imageUrl) {
         await deleteImageByUrl(SUPABASE_BUCKET.Store, imageUrl);
       }
-      throw error;
     }
   };
 
@@ -91,19 +97,3 @@ export const useCreateStore = () => {
     isCreateStorePending: isCreateStorePending || isUploadingImage,
   };
 };
-
-// const reader = new FileReader();
-// reader.onload = () => {
-//   const result = reader.result as string;
-//   const imageBase64 = result.substring(result.indexOf(",") + 1);
-//   createStore({
-//     request: {
-//       ...values,
-//       image: imageBase64,
-//       totalDiscount: Number(values.totalDiscount),
-//       totalTax: Number(values.totalTax),
-//     },
-//   });
-// };
-
-// reader.readAsDataURL(values.image);

@@ -19,15 +19,19 @@ export const useUpdateStore = (store: StoreResponse) => {
     null,
   );
 
+  const toString = (value: number) => {
+    return value !== 0 ? String(value) : "";
+  };
+
   const form = useForm<UpdateStoreFormSchema>({
     resolver: zodResolver(updateStoreFormSchema()),
     defaultValues: {
       name: store.name,
       address: store.address,
       discount: store.discount,
-      totalDiscount: String(store.totalDiscount),
+      totalDiscount: toString(store.totalDiscount),
       tax: store.tax,
-      totalTax: String(store.totalTax),
+      totalTax: toString(store.totalTax),
     },
   });
 
@@ -36,12 +40,11 @@ export const useUpdateStore = (store: StoreResponse) => {
       name: store.name,
       address: store.address,
       discount: store.discount,
-      totalDiscount: String(store.totalDiscount),
+      totalDiscount: toString(store.totalDiscount),
       tax: store.tax,
-      totalTax: String(store.totalTax),
+      totalTax: toString(store.totalTax),
     };
 
-    form.reset(initStoreValues);
     setInitialData(initStoreValues);
   }, [store, form]);
 
@@ -60,11 +63,22 @@ export const useUpdateStore = (store: StoreResponse) => {
     api.store.update.useMutation({
       onSuccess: () => {
         void apiStoreUtils.getAll.invalidate();
-        void router.replace("/dashboard/store");
+        void apiStoreUtils.getById.invalidate({ id: store.id });
+        void router.replace(`/dashboard/store/${store.id}/view`);
         toast.success(
           capitalizeSentence(
             t("successes.message.update", { field: t("models.store.title") }),
           ),
+        );
+      },
+      onError: (error) => {
+        toast.error(
+          error.message ||
+            capitalizeSentence(
+              t("errors.messages.update", {
+                field: t("models.store.title"),
+              }),
+            ),
         );
       },
     });
@@ -85,6 +99,7 @@ export const useUpdateStore = (store: StoreResponse) => {
 
         setIsUploadingImage(false);
       }
+
       await updateStore({
         id: store.id,
         request: {
@@ -94,13 +109,12 @@ export const useUpdateStore = (store: StoreResponse) => {
           totalTax: Number(values.totalTax),
         },
       });
-    } catch (error) {
+    } catch {
       setIsUploadingImage(false);
 
       if (imageUrl) {
         await deleteImageByUrl(SUPABASE_BUCKET.Store, imageUrl);
       }
-      throw error;
     }
   };
 

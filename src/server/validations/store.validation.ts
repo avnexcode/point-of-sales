@@ -17,61 +17,41 @@ export const baseStoreRequest = z.object({
 });
 
 export const createStoreRequest = baseStoreRequest
-  .refine(
-    (data) => {
-      if (data.discount !== AmountType.NONE && !data.totalDiscount) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "If discount is provided, totalDiscount is required",
-      path: ["totalDiscount"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.tax !== AmountType.NONE && !data.totalTax) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "If tax is provided, totalTax is required",
-      path: ["totalDiscount"],
-    },
-  );
+  .refine((data) => data.discount === AmountType.NONE || !!data.totalDiscount, {
+    message: "If discount is provided, totalDiscount is required",
+    path: ["totalDiscount"],
+  })
+  .refine((data) => data.discount !== AmountType.NONE || !data.totalDiscount, {
+    message: "If discount is NONE, totalDiscount must be empty",
+    path: ["totalDiscount"],
+  })
+  .refine((data) => data.tax === AmountType.NONE || !!data.totalTax, {
+    message: "If tax is provided, totalTax is required",
+    path: ["totalTax"],
+  })
+  .refine((data) => data.tax !== AmountType.NONE || !data.totalTax, {
+    message: "If tax is NONE, totalTax must be empty",
+    path: ["totalTax"],
+  });
 
 export const updateStoreRequest = baseStoreRequest
   .partial()
-  .refine(
-    (data) => {
-      if (
-        data.discount &&
-        data.discount !== AmountType.NONE &&
-        !data.totalDiscount
-      ) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "If discount is provided, totalDiscount is required",
-      path: ["totalDiscount"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.tax && data.tax !== AmountType.NONE && !data.totalTax) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "If tax is provided, totalTax is required",
-      path: ["totalTax"],
-    },
-  );
+  .refine((data) => data.discount === AmountType.NONE || !!data.totalDiscount, {
+    message: "If discount is provided, totalDiscount is required",
+    path: ["totalDiscount"],
+  })
+  .refine((data) => data.discount !== AmountType.NONE || !data.totalDiscount, {
+    message: "If discount is NONE, totalDiscount must be empty",
+    path: ["totalDiscount"],
+  })
+  .refine((data) => data.tax === AmountType.NONE || !!data.totalTax, {
+    message: "If tax is provided, totalTax is required",
+    path: ["totalTax"],
+  })
+  .refine((data) => data.tax !== AmountType.NONE || !data.totalTax, {
+    message: "If tax is NONE, totalTax must be empty",
+    path: ["totalTax"],
+  });
 
 export const deleteStoreRequest = z.object({
   id: z.string().min(1).uuid(),

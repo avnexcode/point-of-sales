@@ -21,7 +21,7 @@ export class SettingsService extends BaseService {
   ): Promise<SettingsResponse> => {
     const settings = await SettingsRepository.findUniqueUser(db, userId);
 
-    return this.checkNotNullOrThrow(settings, "NOT_FOUND", this.baseModel);
+    return this.checkNotNull(settings, this.baseModel);
   };
 
   static create = async (
@@ -37,23 +37,23 @@ export class SettingsService extends BaseService {
   static update = async (
     db: DBClient,
     userId: string,
-    id: string,
+    settingsId: string,
     request: UpdateSettingsRequest,
   ): Promise<UpdateSettingsResponse> => {
     const isSettingsByIdExists = await SettingsRepository.countUniqueId(
       db,
       userId,
-      id,
+      settingsId,
     );
 
-    await this.checkExistsOrThrow(
-      "NULL",
-      isSettingsByIdExists > 0,
-      "NOT_FOUND",
-      this.baseModel,
-    );
+    await this.checkExists(isSettingsByIdExists === 0, this.baseModel);
 
-    const settings = await SettingsRepository.update(db, userId, id, request);
+    const settings = await SettingsRepository.update(
+      db,
+      userId,
+      settingsId,
+      request,
+    );
 
     return settings;
   };
@@ -69,12 +69,7 @@ export class SettingsService extends BaseService {
       request.id,
     );
 
-    await this.checkExistsOrThrow(
-      "NULL",
-      isSettingsByIdExists > 0,
-      "NOT_FOUND",
-      this.baseModel,
-    );
+    await this.checkExists(isSettingsByIdExists === 0, this.baseModel);
 
     const settings = await SettingsRepository.destroy(db, userId, request);
 

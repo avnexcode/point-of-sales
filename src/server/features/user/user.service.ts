@@ -12,10 +12,13 @@ import { UserRepository } from "./user.repository";
 export class UserService extends BaseService {
   protected static baseModel = serverI18n.t("models.user.title");
 
-  static getById = async (db: DBClient, id: string): Promise<UserResponse> => {
-    const user = await UserRepository.findUniqueId(db, id);
+  static getById = async (
+    db: DBClient,
+    userId: string,
+  ): Promise<UserResponse> => {
+    const user = await UserRepository.findUniqueId(db, userId);
 
-    return this.checkNotNullOrThrow(user, "NOT_FOUND", this.baseModel);
+    return this.checkNotNull(user, this.baseModel);
   };
 
   static create = async (

@@ -32,7 +32,6 @@ export const StoreView = ({ store, settings }: StoreViewProps) => {
 
   return (
     <div className="space-y-6">
-      {/* Main Content Grid */}
       <div className="grid gap-5 lg:grid-cols-2">
         {/* Store Image */}
         <div className="bg-muted/30 relative aspect-video overflow-hidden rounded-lg border">
@@ -59,6 +58,7 @@ export const StoreView = ({ store, settings }: StoreViewProps) => {
                 icon="MapPin"
                 label={t("models.store.fields.address")}
                 value={store.address}
+                className="max-w-3xl"
               />
               <StoreViewItem
                 icon="Tag"

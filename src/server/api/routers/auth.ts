@@ -8,11 +8,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
   register: publicProcedure
-    .input(
-      z.object({
-        request: registerRequest,
-      }),
-    )
+    .input(z.object({ request: registerRequest }))
     .mutation(async ({ ctx, input }): Promise<void> => {
       const { db } = ctx;
       const { request } = input;

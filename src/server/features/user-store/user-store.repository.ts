@@ -27,15 +27,27 @@ export class UserStoreRepository {
     return userStore;
   };
 
+  static countUniqueId = async (
+    db: DBClient,
+    userId: string,
+    storeId: string,
+    userStoreId: string,
+  ): Promise<number> => {
+    const userStoresCount = await db.userStore.count({
+      where: { userId, storeId, id: userStoreId },
+    });
+
+    return userStoresCount;
+  };
+
   static insert = async (
     db: DBClient,
     request: CreateUserStoreRequest,
   ): Promise<CreateUserStoreResponse> => {
+    const { userId, storeId } = request;
+
     const userStore = await db.userStore.create({
-      data: {
-        userId: request.userId,
-        storeId: request.storeId,
-      },
+      data: { userId, storeId },
       select: {
         id: true,
         userId: true,

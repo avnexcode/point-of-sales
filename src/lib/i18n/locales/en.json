@@ -618,6 +618,11 @@
       "email": {
         "conflict": "This email address is already registered"
       },
+      "save": "Failed to save {{field}}",
+      "upload": "Failed to upload {{field}}",
+      "delete": "Failed to delete {{field}}",
+      "create": "Failed to create {{field}}",
+      "update": "Failed to update {{field}}",
       "trpc": {
         "badRequest": "invalid request for {{field}}",
         "parseError": "unable to parse request data for {{field}}",

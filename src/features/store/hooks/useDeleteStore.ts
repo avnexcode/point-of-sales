@@ -20,6 +20,16 @@ export const useDeleteStore = () => {
           ),
         );
       },
+      onError: (error) => {
+        toast.error(
+          error.message ||
+            capitalizeSentence(
+              t("errors.messages.delete", {
+                field: t("models.store.title"),
+              }),
+            ),
+        );
+      },
     });
 
   const handleDeleteStore = (id: string) => {

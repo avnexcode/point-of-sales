@@ -3,6 +3,8 @@ import type { DBClient } from "@/server/db";
 import type {
   CreateUserStoreRequest,
   CreateUserStoreResponse,
+  DeleteUserStoreRequest,
+  DeleteUserStoreResponse,
   UserStoreResponse,
 } from "@/server/models";
 import { BaseService } from "../common";
@@ -22,7 +24,7 @@ export class UserStoreService extends BaseService {
       storeId,
     );
 
-    return this.checkNotNullOrThrow(userStore, "NOT_FOUND", this.baseModel);
+    return this.checkNotNull(userStore, this.baseModel);
   };
 
   static create = async (
@@ -30,6 +32,31 @@ export class UserStoreService extends BaseService {
     request: CreateUserStoreRequest,
   ): Promise<CreateUserStoreResponse> => {
     const userStore = await UserStoreRepository.insert(db, request);
+
+    return userStore;
+  };
+
+  static delete = async (
+    db: DBClient,
+    userId: string,
+    storeId: string,
+    request: DeleteUserStoreRequest,
+  ): Promise<DeleteUserStoreResponse> => {
+    const isUserStoreByIdExists = await UserStoreRepository.countUniqueId(
+      db,
+      userId,
+      storeId,
+      request.id,
+    );
+
+    await this.checkExists(isUserStoreByIdExists === 0, this.baseModel);
+
+    const userStore = await UserStoreRepository.destroy(
+      db,
+      userId,
+      storeId,
+      request,
+    );
 
     return userStore;
   };

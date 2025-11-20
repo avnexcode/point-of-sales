@@ -136,14 +136,10 @@ export const baseStoreFormSchema = (t: TFunction = translator) => {
 export const createStoreFormSchema = (t: TFunction = translator) => {
   const totalDiscountField = t("models.store.fields.totalDiscount");
   const totalTaxField = t("models.store.fields.totalTax");
+
   return baseStoreFormSchema(t)
     .refine(
-      (data) => {
-        if (data.discount !== AmountType.NONE && !data.totalDiscount) {
-          return false;
-        }
-        return true;
-      },
+      (data) => data.discount === AmountType.NONE || !!data.totalDiscount,
       {
         message: capitalizeSentence(
           t("schemas.validation.common.required", {
@@ -154,34 +150,41 @@ export const createStoreFormSchema = (t: TFunction = translator) => {
       },
     )
     .refine(
-      (data) => {
-        if (data.tax !== AmountType.NONE && !data.totalTax) {
-          return false;
-        }
-        return true;
-      },
+      (data) => data.discount !== AmountType.NONE || !data.totalDiscount,
       {
         message: capitalizeSentence(
-          t("schemas.validation.common.required", {
-            field: totalTaxField,
+          t("schemas.validation.common.notAllowed", {
+            field: totalDiscountField,
           }),
         ),
-        path: ["totalTax"],
+        path: ["totalDiscount"],
       },
-    );
+    )
+    .refine((data) => data.tax === AmountType.NONE || !!data.totalTax, {
+      message: capitalizeSentence(
+        t("schemas.validation.common.required", {
+          field: totalTaxField,
+        }),
+      ),
+      path: ["totalTax"],
+    })
+    .refine((data) => data.tax !== AmountType.NONE || !data.totalTax, {
+      message: capitalizeSentence(
+        t("schemas.validation.common.notAllowed", {
+          field: totalTaxField,
+        }),
+      ),
+      path: ["totalTax"],
+    });
 };
 
 export const updateStoreFormSchema = (t: TFunction = translator) => {
   const totalDiscountField = t("models.store.fields.totalDiscount");
   const totalTaxField = t("models.store.fields.totalTax");
+
   return baseStoreFormSchema(t)
     .refine(
-      (data) => {
-        if (data.discount !== AmountType.NONE && !data.totalDiscount) {
-          return false;
-        }
-        return true;
-      },
+      (data) => data.discount === AmountType.NONE || !!data.totalDiscount,
       {
         message: capitalizeSentence(
           t("schemas.validation.common.required", {
@@ -192,19 +195,30 @@ export const updateStoreFormSchema = (t: TFunction = translator) => {
       },
     )
     .refine(
-      (data) => {
-        if (data.tax !== AmountType.NONE && !data.totalTax) {
-          return false;
-        }
-        return true;
-      },
+      (data) => data.discount !== AmountType.NONE || !data.totalDiscount,
       {
         message: capitalizeSentence(
-          t("schemas.validation.common.required", {
-            field: totalTaxField,
+          t("schemas.validation.common.notAllowed", {
+            field: totalDiscountField,
           }),
         ),
-        path: ["totalTax"],
+        path: ["totalDiscount"],
       },
-    );
+    )
+    .refine((data) => data.tax === AmountType.NONE || !!data.totalTax, {
+      message: capitalizeSentence(
+        t("schemas.validation.common.required", {
+          field: totalTaxField,
+        }),
+      ),
+      path: ["totalTax"],
+    })
+    .refine((data) => data.tax !== AmountType.NONE || !data.totalTax, {
+      message: capitalizeSentence(
+        t("schemas.validation.common.notAllowed", {
+          field: totalTaxField,
+        }),
+      ),
+      path: ["totalTax"],
+    });
 };
