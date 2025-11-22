@@ -4,6 +4,7 @@ import type { DBClient } from "@/server/db";
 import type { QueryResponse } from "@/server/interfaces";
 import type {
   CreateStoreRequest,
+  DeleteStoreRequest,
   DeleteStoreResponse,
   QueryParams,
   StoreResponse,
@@ -128,12 +129,12 @@ export class StoreService extends BaseService {
   static delete = async (
     db: DBClient,
     userId: string,
-    storeId: string,
+    request: DeleteStoreRequest,
   ): Promise<DeleteStoreResponse> => {
     const isStoreExists = await StoreRepository.countUniqueId(
       db,
       userId,
-      storeId,
+      request.id,
     );
 
     await this.checkExists(isStoreExists === 0, this.baseModel);
@@ -142,14 +143,14 @@ export class StoreService extends BaseService {
       const userStore = await UserStoreService.getByUserAndStore(
         db,
         userId,
-        storeId,
+        request.id,
       );
 
-      await UserStoreService.delete(db, userId, storeId, {
+      await UserStoreService.delete(db, userId, request.id, {
         id: userStore.id,
       });
 
-      const store = await StoreRepository.destroy(db, { id: storeId });
+      const store = await StoreRepository.destroy(db, { id: request.id });
 
       if (store.image) {
         await FileService.deleteImageByUrl(SUPABASE_BUCKET.Store, store.image);

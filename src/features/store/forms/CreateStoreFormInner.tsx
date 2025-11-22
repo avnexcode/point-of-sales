@@ -1,15 +1,9 @@
-import {
-  InputCurrency,
-  InputImage,
-  InputSelect,
-  InputStringNumber,
-  InputText,
-} from "@/components/forms";
+import { InputSelect, useFormInput } from "@/components/forms";
 import { env } from "@/configs/env";
+import { useAuth } from "@/hooks";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import type { CreateStoreFormSchema } from "../types";
-import { useAuth } from "@/hooks";
 
 type CreateStoreFormInnerProps = {
   formId: string;
@@ -22,8 +16,10 @@ export const CreateStoreFormInner = ({
 }: CreateStoreFormInnerProps) => {
   const { t } = useTranslation();
   const form = useFormContext<CreateStoreFormSchema>();
-  const defaultImage = String(env.NEXT_PUBLIC_STORE_IMAGE);
+  const defaultImage = env.NEXT_PUBLIC_STORE_IMAGE;
   const { settings } = useAuth();
+  const { InputText, InputCurrency, InputImage, InputStringNumber } =
+    useFormInput<CreateStoreFormSchema>();
 
   return (
     <form
@@ -31,17 +27,13 @@ export const CreateStoreFormInner = ({
       onSubmit={form.handleSubmit(onSubmit)}
       className="space-y-5"
     >
-      <InputText<CreateStoreFormSchema>
-        name="name"
-        label={t("models.store.fields.name")}
-        required
-      />
-      <InputText<CreateStoreFormSchema>
+      <InputText name="name" label={t("models.store.fields.name")} required />
+      <InputText
         name="address"
         label={t("models.store.fields.address")}
         required
       />
-      <InputImage<CreateStoreFormSchema>
+      <InputImage
         name="image"
         label={t("models.store.fields.image")}
         defaultImage={defaultImage}
@@ -57,13 +49,13 @@ export const CreateStoreFormInner = ({
           ]}
         />
         {form.watch("discount") === "NOMINAL" ? (
-          <InputCurrency<CreateStoreFormSchema>
+          <InputCurrency
             name="totalDiscount"
             label={t("models.store.fields.totalDiscount")}
             currency={settings?.currency}
           />
         ) : (
-          <InputStringNumber<CreateStoreFormSchema>
+          <InputStringNumber
             name="totalDiscount"
             label={t("models.store.fields.totalDiscount")}
           />
@@ -80,13 +72,13 @@ export const CreateStoreFormInner = ({
           ]}
         />
         {form.watch("tax") === "NOMINAL" ? (
-          <InputCurrency<CreateStoreFormSchema>
+          <InputCurrency
             name="totalTax"
             label={t("models.store.fields.totalTax")}
             currency={settings?.currency}
           />
         ) : (
-          <InputStringNumber<CreateStoreFormSchema>
+          <InputStringNumber
             name="totalTax"
             label={t("models.store.fields.totalTax")}
           />

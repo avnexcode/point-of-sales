@@ -54,7 +54,11 @@ export const createSidebarMenu = (
           title: t(`${sidebarItems}.warehouse`),
           url: "/dashboard/warehouse",
           icon: "Warehouse",
-          active: [""],
+          active: [
+            "/dashboard/warehouse/create",
+            "/dashboard/warehouse/:id/view",
+            "/dashboard/warehouse/:id/edit",
+          ],
         },
         {
           type: "Single",

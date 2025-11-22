@@ -6,8 +6,8 @@ import {
 import { env } from "@/configs/env";
 import { DashboardLayout } from "@/features/dashboard/components/layouts";
 import { api, renderElements } from "@/utils";
-import { AddStoreCard, StoreCard, StoreCardSkeleton } from "../components";
 import { useTranslation } from "react-i18next";
+import { AddStoreCard, StoreCard, StoreCardSkeleton } from "../components";
 
 type StorePageProps = {
   sidebarDefaultOpen: boolean;
@@ -15,7 +15,7 @@ type StorePageProps = {
 
 export const StorePage = () => {
   const { t } = useTranslation();
-  const defaultImage = String(env.NEXT_PUBLIC_STORE_IMAGE);
+  const defaultImage = env.NEXT_PUBLIC_STORE_IMAGE;
 
   const { data: stores, isLoading: isStoresLoading } =
     api.store.getAll.useQuery({

@@ -5,7 +5,12 @@ import {
 } from "@/server/api/trpc";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { GetServerSidePropsContext } from "next";
-import { authRouter, settingsRouter, storeRouter } from "./routers";
+import {
+  authRouter,
+  settingsRouter,
+  storeRouter,
+  warehouseRouter,
+} from "./routers";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +21,7 @@ export const appRouter = createTRPCRouter({
   auth: authRouter,
   settings: settingsRouter,
   store: storeRouter,
+  warehouse: warehouseRouter,
 });
 
 // export type definition of API

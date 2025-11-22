@@ -16,6 +16,7 @@ import {
   type PathValue,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "../ui/skeleton";
 
 type InputSelectProps<T extends FieldValues, TName extends Path<T>> = {
   name: TName;
@@ -60,7 +61,7 @@ export const InputSelect = <T extends FieldValues, TName extends Path<T>>({
                 })}
               />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-[var(--radix-select-trigger-width)]">
               {renderElements({
                 of: options,
                 keyExtractor: (option, index) => `${option.value}-${index}`,
@@ -79,5 +80,14 @@ export const InputSelect = <T extends FieldValues, TName extends Path<T>>({
         </Field>
       )}
     />
+  );
+};
+
+export const InputSelectSkeleton = () => {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-5 w-44" />
+      <Skeleton className="h-9 w-full" />
+    </div>
   );
 };

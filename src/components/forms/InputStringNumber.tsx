@@ -5,6 +5,7 @@ import { inputHandle, removeNumberFormatting } from "@/utils";
 import type { FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "../ui/skeleton";
 
 type InputStringNumberProps<T extends FieldValues> = {
   name: Path<T>;
@@ -56,5 +57,14 @@ export const InputStringNumber = <T extends FieldValues>({
         </Field>
       )}
     />
+  );
+};
+
+export const InputStringNumberSkeleton = () => {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-5 w-44" />
+      <Skeleton className="h-9 w-full" />
+    </div>
   );
 };

@@ -158,7 +158,7 @@
         "updatedAt": "diperbarui pada"
       }
     },
-    "warehouseu": {
+    "warehouse": {
       "title": "gudang",
       "fields": {
         "slug": "slug",
@@ -524,6 +524,35 @@
         "uploadingImage": "Mengunggah gambar"
       },
       "detail": {}
+    },
+    "warehouse": {
+      "title": "Gudang",
+      "forms": {
+        "create": {
+          "header": {
+            "title": "Tambah Gudang",
+            "description": "Isi detail yang diperlukan untuk membuat gudang baru."
+          },
+          "footer": {
+            "cancelButton": "Batal",
+            "submitButton": "Tambah",
+            "submitButtonLoading": "Menambahkan"
+          }
+        },
+        "update": {
+          "header": {
+            "title": "Perbarui Gudang",
+            "description": "Ubah detail gudang sesuai kebutuhan."
+          },
+          "footer": {
+            "cancelButton": "Batal",
+            "submitButton": "Perbarui",
+            "submitButtonLoading": "Memperbarui"
+          }
+        },
+        "uploadingImage": "Mengunggah gambar"
+      },
+      "detail": {}
     }
   },
   "components": {
@@ -566,6 +595,26 @@
       "deleteStoreDialog": {
         "title": "Apakah Anda yakin?",
         "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus toko Anda secara permanen dan menghilangkan seluruh data dari server kami.",
+        "cancelButton": "Batal",
+        "deleteButton": "Hapus",
+        "deleteButtonLoading": "Menghapus"
+      }
+    },
+    "warehouse": {
+      "warehousePageHeader": {
+        "caption": "Detail informasi gudang",
+        "editButton": "Edit"
+      },
+      "addWarehouseCard": {
+        "title": "Tambah Gudang Baru",
+        "caption": "Klik untuk menambahkan gudang baru ke daftar Anda"
+      },
+      "warehouseCard": {
+        "detailButton": "Lihat Gudang"
+      },
+      "deleteWarehouseDialog": {
+        "title": "Apakah Anda yakin?",
+        "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus gudang Anda secara permanen dan menghilangkan seluruh data dari server kami.",
         "cancelButton": "Batal",
         "deleteButton": "Hapus",
         "deleteButtonLoading": "Menghapus"

@@ -9,6 +9,7 @@ import {
   type Path,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "../ui/skeleton";
 
 type InputImageprops<T extends FieldValues> = {
   name: Path<T>;
@@ -108,5 +109,24 @@ export const InputImage = <T extends FieldValues>({
         </Field>
       )}
     />
+  );
+};
+
+type InputImageSkeletonProps = {
+  withRemoveButton?: boolean;
+};
+
+export const InputImageSkeleton = ({
+  withRemoveButton = false,
+}: InputImageSkeletonProps = {}) => {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-5 w-44" />
+      <Skeleton className="h-[400px] w-full max-w-2xl rounded-md" />
+      <div className="flex gap-2">
+        <Skeleton className="h-9 w-32" />
+        {withRemoveButton && <Skeleton className="h-9 w-32" />}
+      </div>
+    </div>
   );
 };

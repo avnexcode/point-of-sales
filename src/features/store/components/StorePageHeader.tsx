@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Store } from "lucide-react";
-import { useRouter } from "next/router";
-import { DeleteStoreDialog } from "./DeleteStoreDialog";
-import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import { DeleteStoreDialog } from "./DeleteStoreDialog";
 
 type StorePageHeaderProps = {
   title: string;
@@ -25,7 +25,7 @@ export const StorePageHeader = ({
     <div className="flex flex-col items-start justify-between gap-y-2 border-b pb-6 lg:flex-row lg:items-center">
       <div className="flex items-center gap-3">
         <div className="bg-primary/10 flex aspect-square h-12 w-12 items-center justify-center rounded-lg">
-          <Store className="text-primary h-6 w-6" />
+          <Icon name="Store" className="text-primary h-6 w-6" />
         </div>
         <div>
           <Heading

@@ -80,7 +80,7 @@ export const storeRouter = createTRPCRouter({
       const { request } = input;
       try {
         const store = await db.$transaction(async (tx) => {
-          return StoreService.delete(tx, auth.id, request.id);
+          return StoreService.delete(tx, auth.id, request);
         });
         return store;
       } catch (error) {

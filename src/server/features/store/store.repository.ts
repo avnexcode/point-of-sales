@@ -11,6 +11,8 @@ import type {
 } from "@/server/models";
 
 export class StoreRepository {
+  protected static orQuery = ["name", "slug", "address"];
+
   static findManyUniqueUser = async (
     db: DBClient,
     userId: string,
@@ -20,15 +22,12 @@ export class StoreRepository {
 
     const skip = (page - 1) * limit;
 
-    const orQuery = ["name", "slug", "address"].map((field) => ({
+    const orQuery = this.orQuery.map((field) => ({
       [field]: { contains: search, mode: "insensitive" },
     }));
 
     const userStores = await db.userStore.findMany({
-      where: {
-        userId,
-        ...(search && { store: { OR: orQuery } }),
-      },
+      where: { userId, ...(search && { store: { OR: orQuery } }) },
       select: {
         store: {
           select: {
@@ -48,9 +47,7 @@ export class StoreRepository {
       },
       take: limit,
       skip,
-      orderBy: {
-        [sort]: order,
-      },
+      orderBy: { store: { [sort]: order } },
     });
 
     const stores = userStores.map((userStore) => userStore.store);
@@ -92,15 +89,12 @@ export class StoreRepository {
     userId: string,
     search?: string,
   ): Promise<number> => {
-    const orQuery = ["name", "slug", "address"].map((field) => ({
+    const orQuery = this.orQuery.map((field) => ({
       [field]: { contains: search, mode: "insensitive" },
     }));
 
     const userStoresCount = await db.userStore.count({
-      where: {
-        userId,
-        ...(search && { store: { OR: orQuery } }),
-      },
+      where: { userId, ...(search && { store: { OR: orQuery } }) },
     });
 
     return userStoresCount;
@@ -187,10 +181,7 @@ export class StoreRepository {
   ): Promise<DeleteStoreResponse> => {
     const store = await db.store.delete({
       where: { id: request.id },
-      select: {
-        id: true,
-        image: true,
-      },
+      select: { id: true, image: true },
     });
 
     return store;

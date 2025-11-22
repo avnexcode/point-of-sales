@@ -8,13 +8,13 @@ import { DashboardLayout } from "@/features/dashboard/components/layouts";
 import { useAuth } from "@/hooks";
 import { api } from "@/utils";
 import { useParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import {
   StorePageHeader,
   StorePageHeaderSkeleton,
   StoreView,
   StoreViewSkeleton,
 } from "../components";
-import { useTranslation } from "react-i18next";
 
 type DetailStorePageProps = {
   sidebarDefaultOpen: boolean;
@@ -25,8 +25,11 @@ export const DetailStorePage = () => {
   const { settings } = useAuth();
   const { t } = useTranslation();
 
+  const defaultImage = env.NEXT_PUBLIC_STORE_IMAGE;
+
   const { data: store, isLoading: isStoreLoading } = api.store.getById.useQuery(
     { id },
+    { enabled: !!id },
   );
 
   return (
@@ -47,10 +50,7 @@ export const DetailStorePage = () => {
               <StoreViewSkeleton />
             ) : store ? (
               <StoreView
-                store={{
-                  ...store,
-                  image: store.image ?? env.NEXT_PUBLIC_STORE_IMAGE,
-                }}
+                store={{ ...store, image: store.image ?? defaultImage }}
                 settings={settings}
               />
             ) : null}

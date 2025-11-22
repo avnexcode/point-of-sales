@@ -11,6 +11,7 @@ import {
 import type { FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "../ui/skeleton";
 
 type InputCurrencyProps<T extends FieldValues> = {
   name: Path<T>;
@@ -94,5 +95,14 @@ export const InputCurrency = <T extends FieldValues>({
         );
       }}
     />
+  );
+};
+
+export const InputCurrencySkeleton = () => {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-5 w-44" />
+      <Skeleton className="h-9 w-full" />
+    </div>
   );
 };

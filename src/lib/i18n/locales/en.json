@@ -168,8 +168,8 @@
         "updatedAt": "updated at"
       }
     },
-    "warehouseu": {
-      "title": "warehouseu",
+    "warehouse": {
+      "title": "warehouse",
       "fields": {
         "slug": "slug",
         "name": "name",
@@ -536,6 +536,34 @@
         "uploadingImage": "Uploading image"
       },
       "detail": {}
+    },
+    "warehouse": {
+      "title": "Warehouse",
+      "forms": {
+        "create": {
+          "header": {
+            "title": "Create Warehouse",
+            "description": "Fill in the details to create a new warehouse."
+          },
+          "footer": {
+            "cancelButton": "Cancel",
+            "submitButton": "Create",
+            "submitButtonLoading": "Creating"
+          }
+        },
+        "update": {
+          "header": {
+            "title": "Update Warehouse",
+            "description": "Modify the warehouse details as needed."
+          },
+          "footer": {
+            "cancelButton": "Cancel",
+            "submitButton": "Update",
+            "submitButtonLoading": "Updating"
+          }
+        },
+        "uploadingImage": "Uploading image"
+      }
     }
   },
   "components": {
@@ -578,6 +606,26 @@
       "deleteStoreDialog": {
         "title": "Are you absolutely sure?",
         "description": "This action cannot be undone. This will permanently delete your store and remove your data from our servers.",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete",
+        "deleteButtonLoading": "Deleting"
+      }
+    },
+    "warehouse": {
+      "warehousePageHeader": {
+        "caption": "Detail warehouse information",
+        "editButton": "Edit"
+      },
+      "addWarehouseCard": {
+        "title": "Add New Warehouse",
+        "caption": "Click to add a new warehouse to your list"
+      },
+      "warehouseCard": {
+        "detailButton": "View Warehouse"
+      },
+      "deleteWarehouseDialog": {
+        "title": "Are you absolutely sure?",
+        "description": "This action cannot be undone. This will permanently delete your warehouse and remove your data from our servers.",
         "cancelButton": "Cancel",
         "deleteButton": "Delete",
         "deleteButtonLoading": "Deleting"
