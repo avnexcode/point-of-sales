@@ -564,6 +564,14 @@
         },
         "uploadingImage": "Uploading image"
       }
+    },
+    "settings": {
+      "general": {
+        "language": {
+          "title": "Language",
+          "caption": "Select your preferred language"
+        }
+      }
     }
   },
   "components": {

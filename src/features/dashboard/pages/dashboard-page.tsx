@@ -4,13 +4,13 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { ChartjsProvider } from "@/components/layouts/providers";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { useAuth } from "@/hooks";
 import { formatCurrency } from "@/utils";
 import { DashboardBadge, DoughnutChart, LineChart } from "../components";
 import { DashboardLayout } from "../components/layouts";
+import { DateTimeDisplay } from "@/components/elements";
 
 type DashboardPageProps = {
   sidebarDefaultOpen: boolean;
@@ -22,6 +22,7 @@ export const DashboardPage = () => {
     <PageContainer title="Dashboard">
       <SectionContainer padded>
         <DashboardLayout title="Dashboard" className="space-y-10">
+          <DateTimeDisplay />
           <div className="grid grid-cols-1 gap-5 py-10 xl:grid-cols-2 2xl:grid-cols-3">
             <DashboardBadge
               header={{ title: "Product", icon: "AppWindowMac" }}
